@@ -16,6 +16,7 @@ import {
   FileText,
   Brain,
   Zap,
+  Wallet,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -29,6 +30,7 @@ const mobileNavItems = [
   { href: "/calendar", label: "Calendar", icon: Calendar },
   { href: "/reports", label: "Reports", icon: FileText },
   { href: "/coach", label: "Coach", icon: Brain },
+  { href: "/finance", label: "Finance", icon: Wallet },
 ];
 
 export default function TopNav() {

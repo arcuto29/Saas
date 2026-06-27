@@ -18,6 +18,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Zap,
+  Wallet,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -31,6 +32,7 @@ const navItems = [
   { href: "/calendar", label: "Calendar", icon: Calendar },
   { href: "/reports", label: "Reports", icon: FileText },
   { href: "/coach", label: "Coach", icon: Brain },
+  { href: "/finance", label: "Finance", icon: Wallet },
 ];
 
 export default function Sidebar() {
