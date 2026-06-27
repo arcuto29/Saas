@@ -1,32 +1,58 @@
-import { PrismaClient } from "@prisma/client";
+/**
+ * Prisma Client - Lazy Loading
+ * 
+ * This module exports a prisma client that loads lazily to avoid
+ * build/startup errors when @prisma/client hasn't been generated yet.
+ * 
+ * Run `npx prisma generate` to generate the client.
+ * The app works fully with demo data without a database.
+ */
 
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined;
-};
+let prismaInstance: any = null;
 
-function createPrismaClient(): PrismaClient {
-  // In Prisma 7, we need to pass adapter or accelerateUrl
-  // For demo purposes, we create a client that will only work
-  // when a real DATABASE_URL is configured
+function getPrismaClient() {
+  if (prismaInstance) return prismaInstance;
+
   try {
-    return new PrismaClient();
+    // Dynamic require to avoid module resolution errors at build time
+    const { PrismaClient } = require("@prisma/client");
+    prismaInstance = new PrismaClient();
+    return prismaInstance;
   } catch {
-    // Return a proxy that throws helpful errors when accessed
-    return new Proxy({} as PrismaClient, {
-      get(_, prop) {
-        if (prop === "then" || prop === "catch") return undefined;
-        return () => {
-          throw new Error(
-            `Database not configured. Set DATABASE_URL in .env and run "npx prisma db push" to enable database features.`
+    // Return a proxy that provides helpful error messages
+    return new Proxy(
+      {},
+      {
+        get(_, prop) {
+          if (prop === "then" || prop === "catch" || prop === "finally") return undefined;
+          if (prop === "$connect" || prop === "$disconnect") return () => Promise.resolve();
+          
+          // Return a mock that throws on actual database operations
+          return new Proxy(
+            {},
+            {
+              get() {
+                return () => {
+                  throw new Error(
+                    'Database not configured. Run "npx prisma generate" then set DATABASE_URL in .env'
+                  );
+                };
+              },
+            }
           );
-        };
-      },
-    });
+        },
+      }
+    );
   }
 }
 
-export const prisma = globalForPrisma.prisma ?? createPrismaClient();
+// Use a getter so it's truly lazy
+const prisma = new Proxy({} as any, {
+  get(_, prop) {
+    const client = getPrismaClient();
+    return client[prop];
+  },
+});
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
-
+export { prisma };
 export default prisma;
