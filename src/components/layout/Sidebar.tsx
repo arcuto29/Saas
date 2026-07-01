@@ -22,6 +22,7 @@ import {
   Upload,
   GraduationCap,
   AlertTriangle,
+  Lock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -31,6 +32,7 @@ const navItems = [
   { href: "/import", label: "Import Trades", icon: Upload },
   { href: "/analytics", label: "Analytics", icon: BarChart3 },
   { href: "/risk", label: "Risk Calculator", icon: Shield },
+  { href: "/risk-settings", label: "Risk Settings", icon: Lock },
   { href: "/risk-advisor", label: "Risk Advisor", icon: AlertTriangle },
   { href: "/economic-calendar", label: "Econ Calendar", icon: Calendar },
   { href: "/prop-firms", label: "Prop Firms", icon: Building2 },
