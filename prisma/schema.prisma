@@ -13,6 +13,7 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
+  role          String    @default("user") // user, admin, owner
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -289,4 +290,29 @@ model Report {
 
   @@index([userId])
   @@index([userId, type])
+}
+
+
+model Application {
+  id              String   @id @default(cuid())
+  name            String
+  email           String
+  discord         String?
+  plan            String
+  experience      String
+  market          String?
+  goal            String?
+  biggestStruggle String?  @db.Text
+  moneyLost       String?
+  triedBefore     String?  @db.Text
+  availability    String?
+  whyNow          String?  @db.Text
+  message         String?  @db.Text
+  status          String   @default("pending") // pending, contacted, accepted, rejected
+  notes           String?  @db.Text // Your internal notes about this applicant
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
 }
