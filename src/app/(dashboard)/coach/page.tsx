@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import {
   Brain,
   Zap,
@@ -17,81 +18,12 @@ import {
   Clock,
   Flame,
   Award,
+  Upload,
 } from "lucide-react";
 import Card, { CardHeader, CardTitle } from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import ProgressBar from "@/components/ui/ProgressBar";
 import Button from "@/components/ui/Button";
-
-// Demo readiness data
-const readinessScore = {
-  overall: 78,
-  sleep: 85,
-  mood: 70,
-  stress: 65,
-  confidence: 80,
-  discipline: 90,
-  recentPerformance: 72,
-};
-
-// Demo coaching cards
-const coachingCards = [
-  {
-    id: "1",
-    type: "warning",
-    title: "Overtrading Risk Detected",
-    message: "You've taken 4 NQ trades today — your optimal is 2-3. Performance drops 22% after your 3rd trade. Consider stopping for the day.",
-    severity: "warning",
-    icon: AlertTriangle,
-  },
-  {
-    id: "2",
-    type: "insight",
-    title: "Best Setup Performance",
-    message: "Your Breaker Block setup on NQ has a 72% win rate with 2.4 R:R during the NY Open (9:30-11:00 AM). This is your highest-expectancy window.",
-    severity: "success",
-    icon: TrendingUp,
-  },
-  {
-    id: "3",
-    type: "pattern",
-    title: "Sleep & Performance Correlation",
-    message: "Your NQ win rate drops to 45% on days with less than 6 hours of sleep (vs 68% on 7+ hours). Tonight: prioritize sleep before tomorrow's session.",
-    severity: "info",
-    icon: Moon,
-  },
-  {
-    id: "4",
-    type: "warning",
-    title: "Rule-Breaking Pattern",
-    message: "You broke your rules 3 times this week (moved SL twice on ES, oversized on NQ once). Your discipline score dropped from 92% to 82%. Focus on execution.",
-    severity: "critical",
-    icon: Shield,
-  },
-  {
-    id: "5",
-    type: "achievement",
-    title: "3-Win Streak on NQ!",
-    message: "You're on a 3-win streak. Stay disciplined — overconfidence after streaks has led to revenge trades 40% of the time. Stick to your tick target.",
-    severity: "success",
-    icon: Flame,
-  },
-  {
-    id: "6",
-    type: "plan",
-    title: "Tomorrow's Action Plan",
-    message: "Trade only NQ Breaker Block and FVG setups. Max 2 contracts. NY Open session only (9:30-11:30 AM). Stop loss: 5 ticks. Target: 30 ticks. If 2 losses, stop.",
-    severity: "info",
-    icon: Target,
-  },
-];
-
-const weeklyInsights = [
-  "Your best day is Wednesday (71% WR on NQ) — plan your A-setups for midweek",
-  "Performance declines after 11:30 AM EST on NQ — consider stopping before lunch",
-  "Revenge trading cost you $540 this week on ES — that's 42% of your profits given back",
-  "Your NQ shorts underperform longs by 12% — focus on long setups in bullish structure",
-];
 
 const container = {
   hidden: { opacity: 0 },
@@ -121,24 +53,6 @@ export default function CoachPage() {
     return "red";
   };
 
-  const getSeverityStyles = (severity: string) => {
-    switch (severity) {
-      case "critical": return "border-red-500/30 bg-red-500/5";
-      case "warning": return "border-yellow-500/30 bg-yellow-500/5";
-      case "success": return "border-emerald-500/30 bg-emerald-500/5";
-      default: return "border-blue-500/30 bg-blue-500/5";
-    }
-  };
-
-  const getSeverityIconColor = (severity: string) => {
-    switch (severity) {
-      case "critical": return "text-red-400 bg-red-500/10";
-      case "warning": return "text-yellow-400 bg-yellow-500/10";
-      case "success": return "text-emerald-400 bg-emerald-500/10";
-      default: return "text-blue-400 bg-blue-500/10";
-    }
-  };
-
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
       {/* Header */}
@@ -154,54 +68,20 @@ export default function CoachPage() {
         </div>
       </motion.div>
 
-      {/* Readiness Score */}
+      {/* Readiness Score - Keep interactive inputs */}
       <motion.div variants={item}>
         <Card variant="gold">
           <CardHeader>
             <CardTitle className="text-yellow-400">
               <Zap size={14} className="inline mr-1" />
-              Daily Readiness Score
+              Daily Readiness Check-In
             </CardTitle>
-            <Badge variant={readinessScore.overall >= 75 ? "success" : readinessScore.overall >= 50 ? "warning" : "danger"}>
-              {readinessScore.overall >= 75 ? "Ready to Trade" : readinessScore.overall >= 50 ? "Trade with Caution" : "Consider Rest Day"}
+            <Badge variant="default">
+              No Score Yet
             </Badge>
           </CardHeader>
 
-          <div className="flex items-center gap-6 mb-6">
-            <div className="relative w-24 h-24">
-              <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="8" />
-                <circle
-                  cx="50" cy="50" r="42" fill="none"
-                  stroke={readinessScore.overall >= 75 ? "#10B981" : readinessScore.overall >= 50 ? "#D4AF37" : "#EF4444"}
-                  strokeWidth="8"
-                  strokeLinecap="round"
-                  strokeDasharray={`${readinessScore.overall * 2.64} 264`}
-                />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className={`text-2xl font-bold ${getScoreColor(readinessScore.overall)}`}>
-                  {readinessScore.overall}
-                </span>
-              </div>
-            </div>
-            <div className="flex-1 space-y-3">
-              {[
-                { label: "Sleep", score: readinessScore.sleep, icon: Moon },
-                { label: "Mood", score: readinessScore.mood, icon: Smile },
-                { label: "Stress", score: readinessScore.stress, icon: Activity },
-                { label: "Confidence", score: readinessScore.confidence, icon: Shield },
-                { label: "Discipline", score: readinessScore.discipline, icon: CheckCircle2 },
-              ].map(({ label, score, icon: Icon }) => (
-                <div key={label} className="flex items-center gap-3">
-                  <Icon size={14} className="text-gray-500 w-4" />
-                  <span className="text-xs text-gray-400 w-20">{label}</span>
-                  <ProgressBar value={score} max={100} variant={getScoreVariant(score)} size="sm" className="flex-1" />
-                  <span className={`text-xs font-medium w-8 text-right ${getScoreColor(score)}`}>{score}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+          <p className="text-sm text-gray-300 mb-4">Log your daily readiness to get personalized trade recommendations.</p>
 
           {/* Quick Input */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-4 border-t border-yellow-500/10">
@@ -249,34 +129,24 @@ export default function CoachPage() {
         </Card>
       </motion.div>
 
-      {/* Coaching Cards */}
+      {/* Coaching Insights Empty State */}
       <motion.div variants={item}>
-        <h2 className="text-lg font-semibold text-white mb-4">Coaching Insights</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {coachingCards.map((card, idx) => (
-            <motion.div
-              key={card.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.08 }}
-            >
-              <div className={`p-5 rounded-2xl border ${getSeverityStyles(card.severity)}`}>
-                <div className="flex items-start gap-3">
-                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${getSeverityIconColor(card.severity)}`}>
-                    <card.icon size={18} />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-semibold text-white mb-1">{card.title}</h3>
-                    <p className="text-xs text-gray-300 leading-relaxed">{card.message}</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        <Card variant="glass" className="p-12 text-center">
+          <Brain size={40} className="text-gray-600 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-white mb-2">No coaching insights yet</h3>
+          <p className="text-sm text-gray-400 mb-6">Start logging trades to get personalized coaching insights, pattern detection, and actionable recommendations.</p>
+          <div className="flex items-center justify-center gap-3">
+            <Link href="/import">
+              <Button size="sm">Import Trades</Button>
+            </Link>
+            <Link href="/journal">
+              <Button variant="secondary" size="sm">Log a Trade</Button>
+            </Link>
+          </div>
+        </Card>
       </motion.div>
 
-      {/* Weekly Performance Report */}
+      {/* Weekly Performance Report Empty State */}
       <motion.div variants={item}>
         <Card variant="glass">
           <CardHeader>
@@ -284,70 +154,14 @@ export default function CoachPage() {
               <Award size={14} className="inline mr-1" />
               Weekly Performance Report
             </CardTitle>
-            <Badge variant="gold">Week 3, 2025</Badge>
           </CardHeader>
-          <div className="space-y-3">
-            {weeklyInsights.map((insight, idx) => (
-              <div key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
-                <div className="w-5 h-5 rounded-full bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-[10px] font-bold text-yellow-400">{idx + 1}</span>
-                </div>
-                <p className="text-sm text-gray-300">{insight}</p>
-              </div>
-            ))}
+          <div className="py-8 text-center">
+            <p className="text-sm text-gray-400">Complete at least one week of trading to generate your weekly performance report.</p>
           </div>
         </Card>
       </motion.div>
 
-      {/* End of Day Review */}
-      <motion.div variants={item}>
-        <Card variant="glass">
-          <CardHeader>
-            <CardTitle>
-              <Clock size={14} className="inline mr-1" />
-              End-of-Day Review
-            </CardTitle>
-          </CardHeader>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <h4 className="text-sm font-medium text-emerald-400">What Went Well</h4>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-sm text-gray-300">
-                  <CheckCircle2 size={14} className="text-emerald-400" />
-                  <span>Followed trading plan on 3/5 trades</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-300">
-                  <CheckCircle2 size={14} className="text-emerald-400" />
-                  <span>Best setup (Breaker Block) executed perfectly</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-300">
-                  <CheckCircle2 size={14} className="text-emerald-400" />
-                  <span>Risk management respected on all winners</span>
-                </div>
-              </div>
-            </div>
-            <div className="space-y-4">
-              <h4 className="text-sm font-medium text-red-400">Areas to Improve</h4>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-sm text-gray-300">
-                  <AlertTriangle size={14} className="text-red-400" />
-                  <span>Took 2 trades outside optimal session</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-300">
-                  <AlertTriangle size={14} className="text-red-400" />
-                  <span>Moved stop loss on trade #4 (revenge trade)</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-300">
-                  <AlertTriangle size={14} className="text-red-400" />
-                  <span>Overtraded after hitting daily target</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Card>
-      </motion.div>
-
-      {/* Discipline Score Breakdown */}
+      {/* Discipline Score Empty State */}
       <motion.div variants={item}>
         <Card variant="glass">
           <CardHeader>
@@ -355,25 +169,10 @@ export default function CoachPage() {
               <Shield size={14} className="inline mr-1" />
               Discipline Scorecard
             </CardTitle>
-            <span className="text-2xl font-bold text-yellow-400">82%</span>
+            <span className="text-2xl font-bold text-gray-500">--%</span>
           </CardHeader>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-              { label: "Followed trading plan", score: 85 },
-              { label: "Proper position sizing", score: 90 },
-              { label: "Respected stop loss", score: 75 },
-              { label: "Traded optimal session", score: 70 },
-              { label: "Max trades per day", score: 80 },
-              { label: "No emotional decisions", score: 85 },
-            ].map((item) => (
-              <div key={item.label} className="flex items-center gap-3">
-                <span className="text-xs text-gray-400 w-40">{item.label}</span>
-                <ProgressBar value={item.score} max={100} variant={getScoreVariant(item.score)} size="sm" className="flex-1" />
-                <span className={`text-xs font-medium w-10 text-right ${getScoreColor(item.score)}`}>
-                  {item.score}%
-                </span>
-              </div>
-            ))}
+          <div className="py-8 text-center">
+            <p className="text-sm text-gray-400">Log trades and follow your trading plan to build your discipline score.</p>
           </div>
         </Card>
       </motion.div>

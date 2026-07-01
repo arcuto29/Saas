@@ -48,57 +48,7 @@ interface Trade {
   accountId: string;
 }
 
-const initialDemoTrades: Trade[] = [
-  {
-    id: "1", instrument: "NQ", direction: "long", entryPrice: 18250, exitPrice: 18320,
-    stopLoss: 18220, takeProfit: 18350, quantity: 2, commission: 4.50, result: 425.50,
-    setup: "Breaker Block", session: "new_york", entryDate: "2025-01-15T14:30:00",
-    notes: "Clean setup at premium level. Waited for BOS confirmation before entry.",
-    emotions: ["confident"], mistakes: [], tags: ["A+ Setup", "Trend"], rating: 5, accountId: "main",
-  },
-  {
-    id: "2", instrument: "ES", direction: "short", entryPrice: 5980, exitPrice: 6005,
-    stopLoss: 5995, takeProfit: 5950, quantity: 1, commission: 4.50, result: -180.50,
-    setup: "Order Block", session: "new_york", entryDate: "2025-01-15T15:45:00",
-    notes: "Stopped out, didn't respect session close. Took this trade too late.",
-    emotions: ["frustrated"], mistakes: ["late_entry"], tags: ["Revenge"], rating: 2, accountId: "main",
-  },
-  {
-    id: "3", instrument: "NQ", direction: "long", entryPrice: 18180, exitPrice: 18245,
-    stopLoss: 18155, takeProfit: 18280, quantity: 2, commission: 4.50, result: 290.50,
-    setup: "FVG", session: "london", entryDate: "2025-01-14T10:15:00",
-    notes: "Textbook FVG fill during London. Price tapped and reversed immediately.",
-    emotions: ["calm"], mistakes: [], tags: ["A+ Setup"], rating: 4, accountId: "ftmo",
-  },
-  {
-    id: "4", instrument: "GC", direction: "short", entryPrice: 2045.50, exitPrice: 2038.80,
-    stopLoss: 2049.00, takeProfit: 2035.00, quantity: 1, commission: 4.50, result: 150.50,
-    setup: "Breaker Block", session: "london", entryDate: "2025-01-14T08:30:00",
-    notes: "Gold short from supply zone. Nice move down during London open.",
-    emotions: ["confident"], mistakes: [], tags: [], rating: 4, accountId: "main",
-  },
-  {
-    id: "5", instrument: "ES", direction: "long", entryPrice: 5960, exitPrice: 5948,
-    stopLoss: 5950, takeProfit: 5985, quantity: 1, commission: 4.50, result: -95.50,
-    setup: "Liquidity Sweep", session: "overlap", entryDate: "2025-01-13T12:00:00",
-    notes: "Overtraded after lunch, should have stopped. Was chasing after earlier loss.",
-    emotions: ["greedy"], mistakes: ["oversize", "revenge_trade"], tags: [], rating: 1, accountId: "main",
-  },
-  {
-    id: "6", instrument: "NQ", direction: "long", entryPrice: 18100, exitPrice: 18165,
-    stopLoss: 18075, takeProfit: 18180, quantity: 2, commission: 4.50, result: 220.50,
-    setup: "BOS", session: "new_york", entryDate: "2025-01-13T14:00:00",
-    notes: "Break of structure long. Clean entry after liquidity grab below.",
-    emotions: ["calm", "confident"], mistakes: [], tags: ["High Probability"], rating: 4, accountId: "ftmo",
-  },
-  {
-    id: "7", instrument: "EURUSD", direction: "short", entryPrice: 1.0850, exitPrice: 1.0820,
-    stopLoss: 1.0865, takeProfit: 1.0800, quantity: 100000, commission: 3.00, result: 297.00,
-    setup: "Supply & Demand", session: "london", entryDate: "2025-01-12T09:30:00",
-    notes: "Forex short from daily supply zone. Beautiful rejection with engulfing candle.",
-    emotions: ["confident"], mistakes: [], tags: ["Forex", "A+ Setup"], rating: 5, accountId: "myfunded",
-  },
-];
+const initialDemoTrades: Trade[] = [];
 
 export default function JournalPage() {
   const [trades, setTrades] = useState<Trade[]>(initialDemoTrades);
