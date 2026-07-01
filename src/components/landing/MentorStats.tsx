@@ -6,10 +6,7 @@ import {
   TrendingUp,
   Award,
   Flame,
-  Shield,
-  BarChart3,
   Crown,
-  Zap,
   ArrowRight,
 } from "lucide-react";
 import Link from "next/link";
@@ -52,13 +49,6 @@ const stats = [
     bg: "bg-purple-500/10",
     border: "border-purple-500/20",
   },
-];
-
-const tradingEdge = [
-  { icon: Shield, text: "Strict risk management — controlled entries with defined stops, never gambling" },
-  { icon: BarChart3, text: "Proprietary strategy refined over 4+ years of live futures trading" },
-  { icon: Crown, text: "Psychology-first approach — mindset before strategy, discipline before entries" },
-  { icon: Zap, text: "Sniper entries on NQ and ES with minimal drawdown, targeting 1:6 reward" },
 ];
 
 export default function MentorStats() {
@@ -127,51 +117,24 @@ export default function MentorStats() {
           ))}
         </motion.div>
 
-        {/* Trading edge details */}
+        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="max-w-3xl mx-auto"
+          className="text-center"
         >
-          <div className="bg-gradient-to-br from-yellow-500/[0.05] to-transparent border border-yellow-500/10 rounded-3xl p-8 md:p-10">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
-              <div>
-                <h3 className="text-xl font-bold text-white mb-2">My Trading Edge</h3>
-                <p className="text-sm text-gray-400">
-                  This is what I teach. This is how I trade. No secrets held back.
-                </p>
-              </div>
-              <div className="flex items-center gap-3 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-xs font-medium text-emerald-400">Live Trading Daily</span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-              {tradingEdge.map((item) => (
-                <div key={item.text} className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <item.icon size={14} className="text-yellow-400" />
-                  </div>
-                  <p className="text-sm text-gray-300 leading-relaxed">{item.text}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* CTA */}
-            <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 border-t border-white/5">
-              <Link href="/apply">
-                <Button size="lg" className="text-sm px-8 shadow-lg shadow-yellow-500/20">
-                  Apply for Mentorship
-                  <ArrowRight size={16} className="ml-2" />
-                </Button>
-              </Link>
-              <p className="text-xs text-gray-500">
-                Limited spots — I only mentor a few students at a time.
-              </p>
-            </div>
+          <div className="inline-flex flex-col sm:flex-row items-center gap-4">
+            <Link href="/apply">
+              <Button size="lg" className="text-sm px-8 shadow-lg shadow-yellow-500/20">
+                Apply for Mentorship
+                <ArrowRight size={16} className="ml-2" />
+              </Button>
+            </Link>
+            <p className="text-xs text-gray-500">
+              Limited spots — I only mentor a few students at a time.
+            </p>
           </div>
         </motion.div>
       </div>
