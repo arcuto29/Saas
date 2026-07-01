@@ -28,7 +28,7 @@ const phases = [
     title: "The Dark Days",
     subtitle: "Rock Bottom",
     description:
-      "Broke. Couldn't afford a can of soda or a candy bar for 2 years. Sleeping on the floor. Everyone around me laughed. Family members doubted me. Said I was wasting my time. Said trading was gambling.",
+      "Broke. Couldn't afford a can of soda or a candy bar for 2 years. Sleeping on the floor. Everyone around me laughed. Family members doubted me. Said I was wasting my time. Said trading was gambling. I had nothing.",
     quote: "\"You'll never make money from this.\"",
     quoteAuthor: "— Everyone around me",
     icon: Skull,
@@ -42,7 +42,7 @@ const phases = [
     },
     stats: [
       { label: "Account Balance", value: "$0" },
-      { label: "Win Rate", value: "20%" },
+      { label: "Win Rate", value: "12%" },
       { label: "Mental State", value: "Broken" },
     ],
   },
@@ -50,11 +50,11 @@ const phases = [
     id: "grind",
     year: "2021",
     title: "The Grind",
-    subtitle: "Blood, Sweat, Charts",
+    subtitle: "-$40K Deep. Still Going.",
     description:
-      "Blew account after account. Failed funded challenges. Lost count of how many times I restarted. But every single loss was a lesson. I studied harder than anyone around me. 16-hour days. No social life. Just charts.",
-    quote: "\"One more blown account and I'm done... but I wasn't done.\"",
-    quoteAuthor: "— Me, every single month",
+      "Down $40,000. Live accounts blown. Funded accounts blown. Personal savings gone. I lost count of how many accounts I destroyed — live, demo, challenges, you name it. Every single one. People thought I was insane for continuing. But every blown account taught me something the market doesn't teach for free.",
+    quote: "\"I was $40K in the hole and everyone told me to quit. I couldn't. This was all I had.\"",
+    quoteAuthor: "— Me, at my lowest point",
     icon: Flame,
     colors: {
       accent: "#F97316",
@@ -65,9 +65,9 @@ const phases = [
       particle: "bg-orange-500",
     },
     stats: [
-      { label: "Accounts Blown", value: "12+" },
-      { label: "Hours Studying", value: "5000+" },
-      { label: "Failed Challenges", value: "8" },
+      { label: "Total Lost", value: "-$40K+" },
+      { label: "Accounts Blown", value: "Countless" },
+      { label: "Times Told to Quit", value: "Daily" },
     ],
   },
   {
