@@ -218,7 +218,7 @@ export default function PricingSection() {
             </div>
 
             {/* CTA Button */}
-            <Link href="/register" className="w-full">
+            <Link href="/apply" className="w-full">
               <Button
                 variant={idx === 1 ? "primary" : "secondary"}
                 size="lg"
@@ -229,9 +229,9 @@ export default function PricingSection() {
                 }`}
               >
                 {idx === 0
-                  ? "Get Started"
+                  ? "Apply Now"
                   : idx === 1
-                  ? "Join Now"
+                  ? "Apply Now"
                   : "Apply for Inner Circle"}
                 <ArrowRight size={16} className="ml-2" />
               </Button>

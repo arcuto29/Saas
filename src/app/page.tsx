@@ -20,6 +20,8 @@ import {
 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import PricingSection from "@/components/landing/PricingSection";
+import MentorStats from "@/components/landing/MentorStats";
+import AboutMentor from "@/components/landing/AboutMentor";
 
 const features = [
   {
@@ -142,6 +144,9 @@ export default function LandingPage() {
         <nav className="hidden md:flex items-center gap-8">
           <a href="#features" className="text-sm text-gray-400 hover:text-white transition-colors">
             Features
+          </a>
+          <a href="#mentor" className="text-sm text-gray-400 hover:text-white transition-colors">
+            Mentor
           </a>
           <a href="#pricing" className="text-sm text-gray-400 hover:text-white transition-colors">
             Pricing
@@ -367,6 +372,12 @@ export default function LandingPage() {
         </motion.div>
       </section>
 
+      {/* About Mentor Story */}
+      <AboutMentor />
+
+      {/* Mentor Stats Section */}
+      <MentorStats />
+
       {/* Pricing Section */}
       <PricingSection />
 
@@ -513,12 +524,18 @@ export default function LandingPage() {
               <a href="#features" className="text-xs text-gray-500 hover:text-white transition-colors">
                 Features
               </a>
+              <a href="#mentor" className="text-xs text-gray-500 hover:text-white transition-colors">
+                Mentor
+              </a>
               <a href="#pricing" className="text-xs text-gray-500 hover:text-white transition-colors">
                 Pricing
               </a>
               <a href="#testimonials" className="text-xs text-gray-500 hover:text-white transition-colors">
                 Results
               </a>
+              <Link href="/apply" className="text-xs text-yellow-400 hover:text-yellow-300 transition-colors font-medium">
+                Apply
+              </Link>
               <Link href="/login" className="text-xs text-gray-500 hover:text-white transition-colors">
                 Dashboard
               </Link>
