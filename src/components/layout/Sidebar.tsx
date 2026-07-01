@@ -19,19 +19,25 @@ import {
   ChevronRight,
   Zap,
   Wallet,
+  Upload,
+  GraduationCap,
+  AlertTriangle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/journal", label: "Journal", icon: BookOpen },
+  { href: "/import", label: "Import Trades", icon: Upload },
   { href: "/analytics", label: "Analytics", icon: BarChart3 },
-  { href: "/risk", label: "Risk", icon: Shield },
+  { href: "/risk", label: "Risk Calculator", icon: Shield },
+  { href: "/risk-advisor", label: "Risk Advisor", icon: AlertTriangle },
+  { href: "/economic-calendar", label: "Econ Calendar", icon: Calendar },
   { href: "/prop-firms", label: "Prop Firms", icon: Building2 },
   { href: "/goals", label: "Goals", icon: Target },
-  { href: "/calendar", label: "Calendar", icon: Calendar },
   { href: "/reports", label: "Reports", icon: FileText },
-  { href: "/coach", label: "Coach", icon: Brain },
+  { href: "/coach", label: "AI Coach", icon: Brain },
+  { href: "/learn", label: "Learn", icon: GraduationCap },
   { href: "/finance", label: "Finance", icon: Wallet },
   { href: "/admin", label: "Admin", icon: Shield, ownerOnly: true },
 ];
