@@ -33,18 +33,18 @@ const stats = [
   },
   {
     value: "Funded",
-    label: "Futures Accounts",
+    label: "NQ Accounts",
     icon: Award,
-    description: "Passed and managing multiple futures prop firm challenges",
+    description: "Passed and managing multiple NQ prop firm challenges",
     color: "text-blue-400",
     bg: "bg-blue-500/10",
     border: "border-blue-500/20",
   },
   {
-    value: "4+ Years",
-    label: "Futures Experience",
+    value: "7 Contracts",
+    label: "Per Trade (NQ)",
     icon: Flame,
-    description: "Trading NQ, ES, and other index futures full-time",
+    description: "Full size execution on Nasdaq futures daily",
     color: "text-purple-400",
     bg: "bg-purple-500/10",
     border: "border-purple-500/20",
@@ -79,8 +79,9 @@ export default function MentorStats() {
             <span className="text-gold-gradient"> Actually Trades</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            No theory. No recycled YouTube strategies. These are real stats from live funded futures accounts.
-            I trade NQ and ES every single day and I&apos;ve been helping futures traders in my Discord with tips that actually get results.
+            No theory. No recycled YouTube strategies. These are real stats from live funded NQ accounts.
+            I trade NQ every single day — 7 contracts — and I post my daily results in the Discord.
+            No signals. No callouts. Just real, transparent P&amp;L every single day.
             Now I&apos;m offering dedicated mentorship — my full system, one-on-one.
           </p>
         </motion.div>

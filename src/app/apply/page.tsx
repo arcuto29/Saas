@@ -25,9 +25,9 @@ import Select from "@/components/ui/Select";
 import toast from "react-hot-toast";
 
 const planOptions = [
-  { value: "foundation", label: "Foundation — $500 (4 weeks)" },
-  { value: "complete", label: "Complete Trader — $1,000 (8 weeks)" },
-  { value: "inner-circle", label: "Inner Circle — $1,500 (12 weeks + projects)" },
+  { value: "foundation", label: "Foundation — $500 (or 3x $175/mo)" },
+  { value: "complete", label: "Complete Trader — $1,000 (or 3x $350/mo)" },
+  { value: "inner-circle", label: "Inner Circle — $1,500 (or 3x $525/mo)" },
 ];
 
 const experienceOptions = [
@@ -40,11 +40,11 @@ const experienceOptions = [
 
 const marketOptions = [
   { value: "nq", label: "NQ (Nasdaq Futures)" },
+  { value: "mnq", label: "MNQ (Micro Nasdaq)" },
   { value: "es", label: "ES (S&P 500 Futures)" },
   { value: "ym", label: "YM (Dow Futures)" },
-  { value: "gc", label: "GC (Gold Futures)" },
-  { value: "cl", label: "CL (Crude Oil Futures)" },
-  { value: "multiple", label: "Multiple Contracts" },
+  { value: "other", label: "Other Futures" },
+  { value: "new", label: "Haven't started futures yet" },
 ];
 
 const goalOptions = [
@@ -280,11 +280,11 @@ export default function ApplyPage() {
                 </div>
                 <div>
                   <p className="text-2xl font-bold text-emerald-400">Funded</p>
-                  <p className="text-xs text-gray-500">Futures Accounts</p>
+                  <p className="text-xs text-gray-500">NQ Accounts</p>
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-white">4+ yrs</p>
-                  <p className="text-xs text-gray-500">Experience</p>
+                  <p className="text-2xl font-bold text-white">7 Contracts</p>
+                  <p className="text-xs text-gray-500">Per Trade (NQ)</p>
                 </div>
               </div>
             </div>

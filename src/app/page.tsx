@@ -26,61 +26,61 @@ const features = [
   {
     icon: BookOpen,
     title: "Trading Journal",
-    description: "Log every futures trade with emotions, setups, screenshots, and detailed notes. Track what works on NQ, ES, YM.",
+    description: "Log every NQ trade with emotions, setups, screenshots, and detailed notes. Track what works and what doesn't.",
   },
   {
     icon: BarChart3,
     title: "Deep Analytics",
-    description: "Win rate by setup, session (NY open, London, Asia), and contract. Equity curves, drawdown analysis, and pattern detection.",
+    description: "Win rate by setup, session (NY open, London, Asia), and timeframe. Equity curves, drawdown analysis, and pattern detection.",
   },
   {
     icon: Shield,
     title: "Risk Management",
-    description: "Tick-based position sizing, drawdown tracking, and pre-trade checklists built for futures contracts.",
+    description: "Tick-based position sizing for NQ, drawdown tracking, and pre-trade checklists built for futures contracts.",
   },
   {
     icon: Brain,
     title: "AI Coach",
-    description: "Pattern-based intelligence detects revenge trading, overtrading, and identifies your best setups across NQ, ES, and more.",
+    description: "Pattern-based intelligence detects revenge trading, overtrading, and identifies your best NQ setups and sessions.",
   },
   {
     icon: Target,
     title: "Goal Tracking",
-    description: "Daily tick targets, weekly P&L goals, and funded challenge milestones with visual progress.",
+    description: "Daily tick targets, weekly P&L goals, and funded challenge milestones with visual progress tracking.",
   },
   {
     icon: Zap,
     title: "Prop Firm Tracker",
-    description: "Manage multiple funded futures challenges. Track drawdown limits, profit targets, and payout history.",
+    description: "Manage multiple funded NQ challenges. Track drawdown limits, profit targets, and payout history across firms.",
   },
 ];
 
 const stats = [
   { value: "80%", label: "Win Rate", icon: Target },
   { value: "1:6", label: "Risk : Reward", icon: TrendingUp },
-  { value: "Funded", label: "Futures Accounts", icon: Award },
-  { value: "NQ & ES", label: "Primary Markets", icon: Star },
+  { value: "Funded", label: "NQ Futures", icon: Award },
+  { value: "7 Contracts", label: "Per Trade", icon: Star },
 ];
 
 const testimonials = [
   {
     name: "Jay M.",
     role: "NQ Futures Trader | 8 months experience",
-    text: "I was stuck in a cycle of blowing TopStep challenges until Prisma broke down how he reads NQ during the NY open. One conversation about order flow and liquidity sweeps and I finally understood why my entries were getting stopped out every single time.",
+    text: "I was stuck in a cycle of blowing TopStep challenges until I saw Prisma posting his daily NQ results in the Discord. Consistent green days, 7 contracts. Seeing someone actually do it every day made me realize my problem was psychology, not strategy.",
     avatar: "J",
     result: "Passed first funded challenge (50k NQ)",
   },
   {
     name: "Andre W.",
-    role: "ES & NQ Trader | 1 year experience",
-    text: "Prisma's free tips on risk management saved me. I was risking 4-5 ticks stop on ES with no plan. He showed me how to structure my stops around actual levels instead of random numbers. Night and day difference in my P&L.",
+    role: "NQ Trader | 1 year experience",
+    text: "Prisma's daily trade results are insane — 80% win rate with 7 contracts on NQ posted every single day. No cap, no fake screenshots. Just real P&L. That transparency is what made me trust him enough to apply for mentorship.",
     avatar: "A",
     result: "Went from -$800/week to consistent green",
   },
   {
     name: "Chris D.",
     role: "Aspiring Funded Futures Trader",
-    text: "What separates Prisma from everyone else is he actually trades NQ live and shows his thought process. Not just screenshots after the fact. He called a setup in the Discord, explained why, and it hit 1:4 in front of everyone. That's when I knew this was real.",
+    text: "I've been watching Prisma's daily NQ results for 3 months in the Discord. The consistency is what got me. Not one-off wins — consistent, day after day, same setup. That's when I knew this wasn't luck, it was a system worth learning.",
     avatar: "C",
     result: "Learned to wait for A+ setups only",
   },
@@ -184,7 +184,7 @@ export default function LandingPage() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-yellow-400"></span>
             </span>
             <span className="text-xs font-medium text-yellow-400 tracking-wide">
-              Futures Trading Performance OS — NQ · ES · YM
+              Futures Trading Performance OS — NQ Focused
             </span>
           </div>
 
@@ -195,7 +195,7 @@ export default function LandingPage() {
           </h1>
 
           <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed">
-            The all-in-one performance platform for futures traders. Journal NQ and ES trades, analyze your setups,
+            The all-in-one performance platform for futures traders. Journal your NQ trades, analyze setups,
             manage risk per tick, track funded challenges, and get AI coaching — all in one premium dashboard.
           </p>
 
@@ -347,8 +347,8 @@ export default function LandingPage() {
                   <span className="text-xs text-gray-500">Daily P&L (NQ)</span>
                   <TrendingUp size={14} className="text-emerald-400" />
                 </div>
-                <p className="text-2xl font-bold text-emerald-400">+$1,250</p>
-                <p className="text-xs text-gray-500 mt-1">3 contracts · 50 ticks</p>
+                <p className="text-2xl font-bold text-emerald-400">+$3,500</p>
+                <p className="text-xs text-gray-500 mt-1">7 contracts · 100 ticks</p>
               </div>
               <div className="p-5 rounded-xl bg-white/[0.03] border border-white/5">
                 <div className="flex items-center justify-between mb-3">

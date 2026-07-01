@@ -9,16 +9,17 @@ const plans = [
   {
     name: "Foundation",
     price: 500,
+    installment: { amount: 175, payments: 3 },
     icon: Zap,
     badge: null,
-    description: "Get the system and start building your edge",
+    description: "Get the NQ system and start building your edge",
     duration: "4 weeks",
     gradient: "from-gray-500/20 to-gray-600/5",
     borderColor: "border-white/10",
     iconBg: "bg-white/10",
     iconColor: "text-white",
     features: [
-      { text: "Full Trading Strategy", included: true },
+      { text: "Full NQ Trading Strategy", included: true },
       { text: "Mindset Framework", included: true },
       { text: "Group Sessions (4 weeks)", included: true },
       { text: "Trading Plan Template", included: true },
@@ -34,16 +35,17 @@ const plans = [
   {
     name: "Complete Trader",
     price: 1000,
+    installment: { amount: 350, payments: 3 },
     icon: Crown,
     badge: "Most Popular",
-    description: "Personal mentorship to get you funded & consistent",
+    description: "Personal mentorship to get you funded & consistent on NQ",
     duration: "8 weeks",
     gradient: "from-yellow-500/20 to-yellow-600/5",
     borderColor: "border-yellow-500/30",
     iconBg: "bg-yellow-500/20",
     iconColor: "text-yellow-400",
     features: [
-      { text: "Full Trading Strategy", included: true },
+      { text: "Full NQ Trading Strategy", included: true },
       { text: "Deep Mindset Coaching", included: true },
       { text: "Group Sessions (8 weeks)", included: true },
       { text: "4x 1-on-1 Calls", included: true },
@@ -59,6 +61,7 @@ const plans = [
   {
     name: "Inner Circle",
     price: 1500,
+    installment: { amount: 525, payments: 3 },
     icon: Rocket,
     badge: "All Access",
     description: "Full transformation + lifetime access to everything I build",
@@ -68,7 +71,7 @@ const plans = [
     iconBg: "bg-gradient-to-br from-yellow-500/20 to-purple-500/20",
     iconColor: "text-yellow-300",
     features: [
-      { text: "Full Trading Strategy", included: true },
+      { text: "Full NQ Trading Strategy", included: true },
       { text: "Complete Mindset Overhaul", included: true },
       { text: "Group Sessions (12 weeks)", included: true },
       { text: "8x 1-on-1 Calls", included: true },
@@ -188,6 +191,11 @@ export default function PricingSection() {
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-yellow-500/60" />
                 {plan.duration}
               </p>
+              {plan.installment && (
+                <p className="text-xs text-emerald-400 mt-2 font-medium">
+                  or 3 payments of ${plan.installment.amount}/mo
+                </p>
+              )}
             </div>
 
             {/* Divider */}
