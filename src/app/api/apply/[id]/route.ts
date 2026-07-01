@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { updateApplicationStatus, deleteApplication } from "@/lib/prisma";
 
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -6,57 +7,30 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     const { status } = await req.json();
 
     if (!status || !["pending", "contacted", "accepted", "rejected"].includes(status)) {
-      return NextResponse.json(
-        { error: "Invalid status. Must be: pending, contacted, accepted, or rejected" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Invalid status" }, { status: 400 });
     }
 
-    try {
-      const { db } = await import("@/lib/prisma");
-      const client = await db();
-      if (!client) throw new Error("No DB");
-      const application = await client.application.update({
-        where: { id },
-        data: { status },
-      });
-      return NextResponse.json({ application }, { status: 200 });
-    } catch {
-      return NextResponse.json(
-        { error: "Application not found or database error" },
-        { status: 404 }
-      );
+    const result = await updateApplicationStatus(id, status);
+    if (!result) {
+      return NextResponse.json({ error: "Not found or DB error" }, { status: 404 });
     }
+    return NextResponse.json({ application: result }, { status: 200 });
   } catch (error) {
-    console.error("Update application error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    console.error("Update error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
 
 export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-
-    try {
-      const { db } = await import("@/lib/prisma");
-      const client = await db();
-      if (!client) throw new Error("No DB");
-      await client.application.delete({ where: { id } });
-      return NextResponse.json({ message: "Application deleted" }, { status: 200 });
-    } catch {
-      return NextResponse.json(
-        { error: "Application not found" },
-        { status: 404 }
-      );
+    const success = await deleteApplication(id);
+    if (!success) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
+    return NextResponse.json({ message: "Deleted" }, { status: 200 });
   } catch (error) {
-    console.error("Delete application error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    console.error("Delete error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
