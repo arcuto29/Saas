@@ -13,8 +13,10 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     }
 
     try {
-      const { default: prisma } = await import("@/lib/prisma");
-      const application = await prisma.application.update({
+      const { db } = await import("@/lib/prisma");
+      const client = await db();
+      if (!client) throw new Error("No DB");
+      const application = await client.application.update({
         where: { id },
         data: { status },
       });
@@ -39,8 +41,10 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
     const { id } = await params;
 
     try {
-      const { default: prisma } = await import("@/lib/prisma");
-      await prisma.application.delete({ where: { id } });
+      const { db } = await import("@/lib/prisma");
+      const client = await db();
+      if (!client) throw new Error("No DB");
+      await client.application.delete({ where: { id } });
       return NextResponse.json({ message: "Application deleted" }, { status: 200 });
     } catch {
       return NextResponse.json(

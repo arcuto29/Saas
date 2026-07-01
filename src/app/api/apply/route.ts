@@ -57,28 +57,32 @@ export async function POST(req: Request) {
 
     // Try to save to database if available
     try {
-      const { default: prisma } = await import("@/lib/prisma");
-      await prisma.application.create({
-        data: {
-          name,
-          email,
-          discord: discord || null,
-          plan,
-          experience,
-          market: market || null,
-          goal: goal || null,
-          biggestStruggle: biggestStruggle || null,
-          moneyLost: moneyLost || null,
-          triedBefore: triedBefore || null,
-          availability: availability || null,
-          whyNow: whyNow || null,
-          message: message || null,
-        },
-      });
-      console.log("✅ Application saved to database:", application.id);
-    } catch {
-      // Database not available — log to console instead
-      console.log("📋 New mentorship application (no DB):", JSON.stringify(application, null, 2));
+      const { db } = await import("@/lib/prisma");
+      const client = await db();
+      if (client) {
+        await client.application.create({
+          data: {
+            name,
+            email,
+            discord: discord || null,
+            plan,
+            experience,
+            market: market || null,
+            goal: goal || null,
+            biggestStruggle: biggestStruggle || null,
+            moneyLost: moneyLost || null,
+            triedBefore: triedBefore || null,
+            availability: availability || null,
+            whyNow: whyNow || null,
+            message: message || null,
+          },
+        });
+        console.log("✅ Application saved to database:", application.id);
+      } else {
+        console.log("📋 New mentorship application (no DB):", JSON.stringify(application, null, 2));
+      }
+    } catch (dbError) {
+      console.log("📋 DB save failed, logging application:", JSON.stringify(application, null, 2));
     }
 
     // Send Discord webhook notification if configured
@@ -135,17 +139,24 @@ export async function POST(req: Request) {
   }
 }
 
-// GET endpoint to list applications (for your admin use)
+// GET endpoint to list applications (admin only — you'd add auth here)
 export async function GET() {
   try {
-    const { default: prisma } = await import("@/lib/prisma");
-    const applications = await prisma.application.findMany({
+    const { db } = await import("@/lib/prisma");
+    const client = await db();
+    if (!client) {
+      return NextResponse.json(
+        { applications: [], message: "Database not connected" },
+        { status: 200 }
+      );
+    }
+    const applications = await client.application.findMany({
       orderBy: { createdAt: "desc" },
     });
     return NextResponse.json({ applications }, { status: 200 });
   } catch {
     return NextResponse.json(
-      { message: "Database not configured. Set up PostgreSQL and run prisma db push." },
+      { applications: [], message: "Database error" },
       { status: 200 }
     );
   }

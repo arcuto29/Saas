@@ -21,29 +21,36 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const email = credentials.email as string;
         const password = credentials.password as string;
 
-        // Try database auth first
+        // Try database auth
         try {
-          const { default: prisma } = await import("./prisma");
-          const bcrypt = await import("bcryptjs");
+          const { db } = await import("./prisma");
+          const client = await db();
 
-          const user = await prisma.user.findUnique({ where: { email } });
-          if (user && user.password) {
-            const isValid = await bcrypt.compare(password, user.password);
-            if (isValid) {
-              return {
-                id: user.id,
-                email: user.email,
-                name: user.name,
-                image: user.image,
-                role: user.role,
-              };
+          if (client) {
+            const bcrypt = await import("bcryptjs");
+            const user = await client.user.findUnique({ where: { email } });
+
+            if (user && user.password) {
+              const isValid = await bcrypt.compare(password, user.password);
+              if (isValid) {
+                return {
+                  id: user.id,
+                  email: user.email,
+                  name: user.name,
+                  image: user.image,
+                  role: user.role || "user",
+                };
+              }
+              // Password didn't match — don't fall through to demo
+              return null;
             }
           }
-        } catch {
-          // Database not available — fall through to demo mode
+        } catch (error) {
+          console.error("[Auth] Database error:", error);
+          // Fall through to demo mode
         }
 
-        // Demo mode: accept any credentials
+        // Demo mode: accept any credentials when DB is unavailable
         if (email && password) {
           return {
             id: "demo-user-1",

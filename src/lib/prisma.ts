@@ -2,65 +2,66 @@
 /**
  * Prisma Client - Neon PostgreSQL (Prisma 7)
  * 
- * Uses @prisma/adapter-neon for serverless connection.
- * Falls back gracefully when database is not configured.
+ * Lazy initialization — only connects when first database call is made.
+ * Falls back gracefully when database is not configured or connection fails.
  */
 
-import { PrismaClient } from "@prisma/client";
-import { PrismaNeon } from "@prisma/adapter-neon";
+let prismaInstance: any = null;
+let initAttempted = false;
 
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined;
-};
+async function getClient() {
+  if (prismaInstance) return prismaInstance;
+  if (initAttempted) return null;
+  initAttempted = true;
 
-function createClient(): PrismaClient | null {
   const url = process.env.DATABASE_URL;
   if (!url || url.includes("user:password@localhost")) {
     return null;
   }
+
   try {
+    const { PrismaClient } = require("@prisma/client");
+    const { PrismaNeon } = require("@prisma/adapter-neon");
     const adapter = new PrismaNeon({ connectionString: url });
-    return new PrismaClient({ adapter } as any);
+    prismaInstance = new PrismaClient({ adapter });
+    return prismaInstance;
   } catch (e) {
-    console.error("Prisma init error:", e);
+    console.error("[Prisma] Failed to initialize:", e);
     return null;
   }
 }
 
-const prismaClient = globalForPrisma.prisma ?? createClient();
-
-if (process.env.NODE_ENV !== "production" && prismaClient) {
-  globalForPrisma.prisma = prismaClient;
+// Helper function for use in API routes and auth
+export async function db() {
+  return await getClient();
 }
 
-// Export a proxy that gracefully handles missing database
+// Proxy for backwards compatibility with `prisma.model.method()` syntax
 const prisma: any = new Proxy(
   {},
   {
     get(_, prop) {
       if (prop === "then" || prop === "catch" || prop === "finally") return undefined;
-      if (prop === "$connect" || prop === "$disconnect") {
-        return prismaClient
-          ? () => (prismaClient as any)[prop]()
-          : () => Promise.resolve();
-      }
-
-      if (!prismaClient) {
-        return new Proxy(
-          {},
-          {
-            get() {
-              return () => {
-                throw new Error(
-                  "Database not configured. Set DATABASE_URL in environment variables."
-                );
-              };
-            },
-          }
-        );
-      }
-
-      return (prismaClient as any)[prop];
+      
+      // Return an object whose methods are async and get the client first
+      return new Proxy(
+        {},
+        {
+          get(__, methodName) {
+            return async (...args: any[]) => {
+              const client = await getClient();
+              if (!client) {
+                throw new Error("Database not available");
+              }
+              const model = client[prop];
+              if (!model || typeof model[methodName] !== "function") {
+                throw new Error(`Unknown: ${String(prop)}.${String(methodName)}`);
+              }
+              return model[methodName](...args);
+            };
+          },
+        }
+      );
     },
   }
 );
