@@ -1,527 +1,630 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen,
   Play,
   Clock,
   Star,
   ChevronRight,
+  ChevronLeft,
   Search,
-  Filter,
   Zap,
   Target,
   Shield,
   Brain,
   BarChart3,
   TrendingUp,
-  DollarSign,
-  Layers,
   Award,
+  Lock,
+  CheckCircle2,
+  Layers,
+  ArrowRight,
+  Sparkles,
+  GraduationCap,
+  Flame,
 } from "lucide-react";
 import Card, { CardHeader, CardTitle } from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
-import Input from "@/components/ui/Input";
+import Button from "@/components/ui/Button";
+import ProgressBar from "@/components/ui/ProgressBar";
 
-const CATEGORIES = [
-  { id: "all", label: "All", icon: BookOpen },
-  { id: "basics", label: "Futures Basics", icon: Layers },
-  { id: "nq", label: "NQ Trading", icon: Zap },
-  { id: "risk", label: "Risk Management", icon: Shield },
-  { id: "psychology", label: "Psychology", icon: Brain },
-  { id: "funded", label: "Getting Funded", icon: Award },
-  { id: "advanced", label: "Advanced", icon: Target },
-];
-
-const LESSONS = [
+// Course modules — structured like a real curriculum
+const MODULES = [
   {
-    id: "1",
-    title: "What Are Futures? A Complete Beginner's Guide",
-    description: "Understand futures contracts, margin, tick values, and why NQ is the best market for new traders.",
-    category: "basics",
-    duration: "12 min read",
-    difficulty: "beginner",
+    id: "foundations",
+    title: "Foundations",
+    subtitle: "Understand futures before you trade them",
+    icon: Layers,
+    color: "text-blue-400",
+    bg: "bg-blue-500/10",
+    border: "border-blue-500/20",
+    gradient: "from-blue-500/10 to-blue-600/5",
+    lessons: 4,
+    duration: "45 min",
+    progress: 0,
     free: true,
-    topics: ["Contracts", "Margin", "Tick Value", "Symbols"],
-    content: `
-## What Are Futures Contracts?
-
-A futures contract is an agreement to buy or sell an asset at a predetermined price at a specified time in the future. In trading, we use futures to speculate on the direction of indices like the Nasdaq 100 (NQ).
-
-### Key Concepts:
-
-**Contract Specifications (NQ):**
-- Symbol: NQ (full) or MNQ (micro)
-- Tick Size: 0.25 points
-- Tick Value: $5.00 per tick (NQ) or $0.50 (MNQ)
-- Point Value: $20.00 per point (NQ) or $2.00 (MNQ)
-- Trading Hours: Sunday 6PM – Friday 5PM EST (with daily break)
-
-**Why NQ?**
-- High liquidity = tight spreads
-- Moves well = plenty of opportunities
-- Tech-heavy = trends cleanly
-- Most prop firms offer NQ accounts
-
-**Margin:**
-Unlike stocks, you don't pay the full contract value. You post "margin" — a deposit to hold the position. For a $50K funded account, you might only need $500-$1000 margin per contract.
-
-### Next Steps:
-Once you understand what futures are, move to "Understanding NQ Tick Values & Position Sizing" to learn how to calculate your risk per trade.
-    `,
+    topics: [
+      {
+        title: "What are futures contracts?",
+        points: [
+          "Agreement to buy/sell at a set price in the future",
+          "You don't own the underlying asset — just speculation",
+          "Contracts have expiration dates (quarterly for NQ)",
+          "Margin lets you control large value with small capital",
+        ],
+      },
+      {
+        title: "NQ contract specifications",
+        points: [
+          "Symbol: NQ (full) / MNQ (micro)",
+          "Tick size: 0.25 points",
+          "Tick value: $5.00 (NQ) or $0.50 (MNQ)",
+          "1 point = 4 ticks = $20 (NQ) / $2 (MNQ)",
+          "With 7 contracts: 1 tick = $35",
+        ],
+      },
+      {
+        title: "Why trade NQ specifically?",
+        points: [
+          "Tech-heavy index = trends cleanly",
+          "High liquidity = tight spreads, easy fills",
+          "Moves big = plenty of opportunity daily",
+          "Most prop firms offer NQ accounts",
+          "One instrument mastery > being average at many",
+        ],
+      },
+      {
+        title: "Margin, leverage & account types",
+        points: [
+          "Day trade margin: ~$500-$1000/contract (varies by broker)",
+          "Leverage is a tool — it amplifies wins AND losses",
+          "Demo → Funded Challenge → Live Funded → Personal Live",
+          "Start with MNQ (micro) if underfunded",
+        ],
+      },
+    ],
   },
   {
-    id: "2",
-    title: "NQ Tick Values & Position Sizing for Beginners",
-    description: "Learn exactly how much money each tick is worth and how to size your positions based on your account.",
-    category: "nq",
-    duration: "8 min read",
-    difficulty: "beginner",
+    id: "risk",
+    title: "Risk Management",
+    subtitle: "The rules that keep you in the game",
+    icon: Shield,
+    color: "text-emerald-400",
+    bg: "bg-emerald-500/10",
+    border: "border-emerald-500/20",
+    gradient: "from-emerald-500/10 to-emerald-600/5",
+    lessons: 4,
+    duration: "50 min",
+    progress: 0,
     free: true,
-    topics: ["Tick Value", "Position Size", "Risk Per Trade", "Contracts"],
-    content: `
-## NQ Tick Values
-
-Every 0.25 point move on NQ = 1 tick = $5.00 per contract.
-
-### Quick Math:
-- 1 tick = $5 (per contract)
-- 4 ticks = 1 point = $20 (per contract)  
-- 10 ticks = 2.5 points = $50 (per contract)
-- 20 ticks = 5 points = $100 (per contract)
-
-### With 7 Contracts (Prisma's size):
-- 1 tick = $35
-- 10 ticks = $350
-- 20 ticks = $700
-- 100 ticks = $3,500
-
-### Position Sizing Formula:
-\`Max Contracts = (Account × Risk%) / (Stop in ticks × $5)\`
-
-Example: $50,000 account, 1% risk, 20 tick stop:
-\`$50,000 × 0.01 / (20 × $5) = $500 / $100 = 5 contracts max\`
-    `,
+    topics: [
+      {
+        title: "The non-negotiable rules",
+        points: [
+          "Never risk more than 1-2% of account per trade",
+          "Daily loss limit = 2x single trade risk. Hit it? Done.",
+          "2 consecutive losses = stop for the day",
+          "Stop loss is set BEFORE entry, never moved further",
+          "Never average down on a losing position",
+        ],
+      },
+      {
+        title: "Position sizing formula",
+        points: [
+          "Max Contracts = (Account × Risk%) / (Stop ticks × $5)",
+          "Example: $50K, 1% risk, 20 tick stop",
+          "$500 / (20 × $5) = $500 / $100 = 5 contracts",
+          "With 7 contracts + 10 tick stop = $350 risk per trade",
+          "Know your number BEFORE every single trade",
+        ],
+      },
+      {
+        title: "Why R:R is everything",
+        points: [
+          "With 1:6 R:R and 50% win rate you're VERY profitable",
+          "With 1:1 R:R you need 60%+ win rate just to break even",
+          "Minimum 1:3 R:R or don't take the trade",
+          "Your stop should be tight (structure-based), target wide",
+          "80% WR + 1:6 RR = you only need to be right 4/5 times",
+        ],
+      },
+      {
+        title: "The math that makes you funded",
+        points: [
+          "10 trades: 8 wins × $600 = $4,800",
+          "10 trades: 2 losses × $100 = -$200",
+          "Net: +$4,600 from 10 trades",
+          "That's a funded challenge PASSED in a few days",
+          "The math works. You just have to follow the rules.",
+        ],
+      },
+    ],
   },
   {
-    id: "3",
-    title: "The Only Risk Management Rules You Need",
-    description: "Simple, non-negotiable rules that will keep you in the game. Break these and you blow accounts.",
-    category: "risk",
-    duration: "10 min read",
-    difficulty: "beginner",
+    id: "psychology",
+    title: "Trading Psychology",
+    subtitle: "80% of trading is between your ears",
+    icon: Brain,
+    color: "text-purple-400",
+    bg: "bg-purple-500/10",
+    border: "border-purple-500/20",
+    gradient: "from-purple-500/10 to-purple-600/5",
+    lessons: 4,
+    duration: "55 min",
+    progress: 0,
     free: true,
-    topics: ["Daily Loss Limit", "Position Size", "Stop Loss", "Rules"],
-    content: `
-## Non-Negotiable Risk Rules
-
-These aren't suggestions. These are laws. Break them = blow your account.
-
-### Rule 1: Never risk more than 1-2% per trade
-On a $50K account, that's $500-$1000 max per trade. Period.
-
-### Rule 2: Daily loss limit = 2x your single trade risk
-If you risk $500 per trade, your daily max loss is $1000. Hit it? Turn off the computer.
-
-### Rule 3: 2 consecutive losses = STOP
-Two losses in a row means your read is off today. Come back tomorrow.
-
-### Rule 4: Stop loss is SET before entry
-If you don't know where your stop is BEFORE you click buy/sell, you're gambling.
-
-### Rule 5: Never move your stop loss further away
-Moving your stop = hoping. Hoping = losing. Take the loss, move on.
-
-### Rule 6: Never average down on a losing position
-Adding to a loser is how $500 losses become $5000 losses.
-
-### The Math That Matters:
-- With 80% win rate and 1:6 R:R (like Prisma):
-- 10 trades: 8 winners × $600 = $4,800 | 2 losers × $100 = $200
-- Net: +$4,600 from 10 trades
-- You can be wrong 20% of the time and still make a killing IF your risk management is perfect.
-    `,
+    topics: [
+      {
+        title: "Why 90% of traders fail",
+        points: [
+          "It's not the strategy — it's the execution",
+          "Knowing what to do ≠ doing it under pressure",
+          "Emotions hijack logic every single time",
+          "The market rewards patience and punishes impulse",
+          "Most people quit right before the breakthrough",
+        ],
+      },
+      {
+        title: "Revenge trading — the account killer",
+        points: [
+          "You lose → you feel angry → you take another trade",
+          "Second trade is emotional, not logical",
+          "Result: small loss becomes catastrophic loss",
+          "Fix: After ANY loss, walk away 15+ minutes minimum",
+          "Your next trade should be BETTER than average",
+        ],
+      },
+      {
+        title: "FOMO & overtrading",
+        points: [
+          "Seeing NQ move without you is NOT a reason to enter",
+          "Chasing = buying the top or selling the bottom",
+          "If you missed it, you missed it. There's always tomorrow",
+          "2-3 quality trades > 10 garbage trades",
+          "Every trade you DON'T take is capital preserved",
+        ],
+      },
+      {
+        title: "Building discipline that lasts",
+        points: [
+          "Write your rules down. Print them. Read them daily.",
+          "Journal EVERY trade — especially the bad ones",
+          "Discipline is a muscle. It gets stronger with use.",
+          "Your identity should be 'disciplined trader' not 'winning trader'",
+          "Process > Outcome. Every. Single. Time.",
+        ],
+      },
+    ],
   },
   {
-    id: "4",
-    title: "Trading Psychology: Why 90% of Traders Fail",
-    description: "It's not your strategy. It's your mind. Learn the psychological traps that destroy accounts.",
-    category: "psychology",
-    duration: "15 min read",
-    difficulty: "intermediate",
+    id: "sessions",
+    title: "Market Sessions",
+    subtitle: "When to trade and when to sit",
+    icon: Clock,
+    color: "text-yellow-400",
+    bg: "bg-yellow-500/10",
+    border: "border-yellow-500/20",
+    gradient: "from-yellow-500/10 to-yellow-600/5",
+    lessons: 3,
+    duration: "30 min",
+    progress: 0,
     free: true,
-    topics: ["Revenge Trading", "FOMO", "Discipline", "Emotions"],
-    content: `
-## The Real Reason Traders Fail
-
-Strategy is 20% of trading. Psychology is 80%. Here's what destroys accounts:
-
-### 1. Revenge Trading
-You take a loss. You feel angry. You immediately take another trade to "make it back."
-Result: You're trading emotionally, not logically. Second loss is usually bigger.
-
-**Fix:** After a loss, walk away for 15 minutes minimum. Your next trade should be BETTER than average, not desperate.
-
-### 2. FOMO (Fear of Missing Out)
-You see NQ moving without you. You chase the move. You enter late with no plan.
-Result: You bought the top or sold the bottom.
-
-**Fix:** If you missed it, you missed it. There will be another setup. The market is open every single day.
-
-### 3. Moving Your Stop Loss
-The trade is going against you. You "know" it'll come back. You move your stop further.
-Result: What was a $100 loss becomes a $500 loss.
-
-**Fix:** Your stop was placed for a reason. If the reason is gone, the trade is gone. Accept it.
-
-### 4. Overtrading
-You take 8 trades when your plan says 2-3. More trades ≠ more money.
-Result: Commission adds up, quality drops, discipline erodes.
-
-**Fix:** 2-3 A+ setups per day maximum. Quality > Quantity. Always.
-    `,
+    topics: [
+      {
+        title: "The session breakdown",
+        points: [
+          "Asia (6PM–3AM EST): Low vol, choppy. Skip it.",
+          "London (3AM–8AM EST): Sets up NY direction. Pre-market.",
+          "NY Open (9:30–11:30AM EST): YOUR WINDOW. Best setups. ⭐",
+          "Midday (11:30AM–2PM): Chop. This kills accounts.",
+          "Afternoon (2PM–4PM): Volume returns but risky on news days.",
+        ],
+      },
+      {
+        title: "Why NY Open is king",
+        points: [
+          "Highest volume and liquidity on NQ",
+          "Cleanest directional moves",
+          "Initial Balance (first 30 min) defines the day",
+          "Most consistent R:R opportunities",
+          "2 hours of focus beats 8 hours of noise",
+        ],
+      },
+      {
+        title: "Session rules for NQ",
+        points: [
+          "Only trade 9:30 AM – 11:30 AM EST",
+          "Never hold into FOMC, CPI, or NFP",
+          "If no A+ setup by 11:00 AM, done for the day",
+          "Pre-holiday sessions = thin liquidity = sit out",
+          "Friday afternoons = position squaring = unpredictable",
+        ],
+      },
+    ],
   },
   {
-    id: "5",
-    title: "How to Get Funded: Prop Firm Challenge Guide",
-    description: "Step-by-step guide to passing TopStep, Apex, and other NQ funded challenges.",
-    category: "funded",
-    duration: "20 min read",
-    difficulty: "intermediate",
+    id: "funded",
+    title: "Getting Funded",
+    subtitle: "Pass challenges and get paid",
+    icon: Award,
+    color: "text-yellow-400",
+    bg: "bg-yellow-500/10",
+    border: "border-yellow-500/20",
+    gradient: "from-yellow-500/10 to-yellow-600/5",
+    lessons: 4,
+    duration: "40 min",
+    progress: 0,
     free: true,
-    topics: ["TopStep", "Apex", "Challenge Rules", "Strategy"],
-    content: `
-## Getting Funded — The Complete Guide
-
-### Step 1: Choose Your Firm
-- **TopStep** — Most popular, strict trailing drawdown, $50K-$150K accounts
-- **Apex Trader Funding** — Easier rules, frequent sales, good for beginners
-- **MyFundedFutures** — Middle ground, decent rules
-- **Bulenox** — Budget option, similar to Apex
-
-### Step 2: Understand the Rules
-Every prop firm has:
-- **Profit Target** — How much you need to make to pass (usually $3K-$6K)
-- **Daily Loss Limit** — Max you can lose in a single day ($1K-$2K typically)
-- **Trailing Drawdown** — Total loss from your highest equity point
-- **Minimum Trading Days** — Usually 5-10 days minimum
-
-### Step 3: The Strategy to Pass
-1. Risk small — 1 contract or micro contracts first few days
-2. Build a buffer before sizing up
-3. Never trade more than 2-3 times per day
-4. Avoid news events entirely during the challenge
-5. Once at 60% of target, reduce risk further — protect profits
-6. Be patient — you have 30+ days, use them all
-
-### Step 4: After Passing
-- Get your funded account
-- Same rules apply but now with real money
-- First payout is proof — screenshot it, post it, celebrate
-- Then do it again with another account
-
-### The Reality:
-Most people fail 3-5 challenges before passing. That's normal. Each fail teaches you something. Budget for it.
-    `,
+    topics: [
+      {
+        title: "Choose your prop firm",
+        points: [
+          "TopStep: Most popular, strict trailing drawdown",
+          "Apex: Easier rules, frequent sales",
+          "MyFundedFutures: Good middle ground",
+          "Bulenox: Budget option, similar to Apex",
+          "Start with 50K account — enough room, affordable challenge",
+        ],
+      },
+      {
+        title: "The rules you MUST know",
+        points: [
+          "Profit target: how much to pass (usually $3K–$6K)",
+          "Daily loss limit: max single-day loss ($1K–$2K)",
+          "Trailing drawdown: total loss from peak equity",
+          "Min trading days: 5–10 days minimum",
+          "Know EXACTLY what gets you failed before starting",
+        ],
+      },
+      {
+        title: "The strategy to pass",
+        points: [
+          "Days 1–3: Trade 1 contract. Build a buffer.",
+          "Days 4–7: Size up to 2-3 contracts once in profit",
+          "Days 8+: Push toward target with controlled risk",
+          "Never trade more than 3x per day during challenge",
+          "At 60% of target → go conservative, protect profits",
+        ],
+      },
+      {
+        title: "After passing — staying funded",
+        points: [
+          "Same rules apply with real money",
+          "First payout = proof you can do this",
+          "Don't change what worked during the challenge",
+          "Scale by adding accounts, not by increasing risk",
+          "Most fail 3-5 challenges before passing. Budget for it.",
+        ],
+      },
+    ],
   },
   {
-    id: "6",
-    title: "Understanding Market Sessions & When to Trade NQ",
-    description: "Not all hours are equal. Learn which session gives the best setups and when to sit out.",
-    category: "nq",
-    duration: "10 min read",
-    difficulty: "beginner",
+    id: "plan",
+    title: "Trading Plan",
+    subtitle: "Your daily operating system",
+    icon: Target,
+    color: "text-red-400",
+    bg: "bg-red-500/10",
+    border: "border-red-500/20",
+    gradient: "from-red-500/10 to-red-600/5",
+    lessons: 3,
+    duration: "35 min",
+    progress: 0,
     free: true,
-    topics: ["NY Open", "London", "Asia", "Best Times"],
-    content: `
-## Trading Sessions for NQ
-
-### Asia Session (6PM - 3AM EST)
-- Low volatility, choppy price action
-- Not ideal for NQ trading unless you have a specific edge here
-- Good for: Setting levels for the next day
-
-### London Session (3AM - 8AM EST)
-- Moderate volatility, can set up the NY direction
-- Pre-market moves happen here
-- Good for: Identifying overnight range extremes
-
-### NY Open (9:30AM - 11:30AM EST) ⭐ BEST WINDOW
-- Highest volume and volatility
-- Cleanest moves, best R:R setups
-- This is where 80%+ of your trades should happen
-- The "Initial Balance" (first 30 min) defines the day's range
-
-### Midday (11:30AM - 2:00PM EST)
-- Chop city. Low volume. Range-bound.
-- Avoid trading here. This is where accounts get chopped up.
-
-### Afternoon (2:00PM - 4:00PM EST)
-- Volume picks up for close
-- Can be good for continuation trades
-- Dangerous on FOMC/news days
-
-### After Hours (4:00PM - 6:00PM EST)
-- Low liquidity, wide spreads
-- Only trade if you have a very specific reason
-
-### Prisma's Rule:
-Trade NY Open (9:30-11:30), then stop. That's it. 2 hours of focus beats 8 hours of noise.
-    `,
-  },
-  {
-    id: "7",
-    title: "Building a Trading Plan That Actually Works",
-    description: "A real trading plan template. Not theory — the exact structure funded traders use daily.",
-    category: "advanced",
-    duration: "12 min read",
-    difficulty: "intermediate",
-    free: true,
-    topics: ["Trading Plan", "Rules", "Process", "Template"],
-    content: `
-## Your Trading Plan Template
-
-### 1. Session (When)
-- I trade NY Open only: 9:30 AM – 11:30 AM EST
-- No trades before 9:30, no trades after 11:30 (exceptions: rare A+ setups)
-
-### 2. Instrument (What)
-- NQ Futures only
-- No ES, no YM, no switching between instruments
-
-### 3. Direction (Why)
-- Determine daily bias BEFORE the session
-- If NQ is above prior day high = bullish bias (look for longs)
-- If NQ is below prior day low = bearish bias (look for shorts)
-- If inside range = wait for breakout confirmation
-
-### 4. Setup (How)
-- Only take A+ setups that match my system
-- Confirmation required before entry
-- No "feel" trades. No "I think it's going up" trades.
-
-### 5. Risk (How Much)
-- Maximum 7 contracts
-- Stop loss: structural, not arbitrary
-- Risk per trade: $500 max (10 ticks × 7 contracts × $5 = $350 at 10 tick stop)
-- Daily max loss: $1,000 (2 trades max)
-
-### 6. Target (Where)
-- Minimum 1:3 R:R or no trade
-- Ideal: 1:6 R:R (my average)
-- Partials at 1:3, runner to 1:6+
-
-### 7. Rules (Non-Negotiable)
-- 3 trades max per day
-- 2 consecutive losses = done for the day
-- No trading during high-impact news
-- Journal EVERY trade (win or loss)
-- Review at end of session before closing platform
-
-Write this out. Print it. Put it next to your monitor. Read it every morning.
-    `,
-  },
-  {
-    id: "8",
-    title: "The Journal Review Process: How to Actually Learn from Trades",
-    description: "Most traders journal wrong. Here's the review process that turns losses into lessons.",
-    category: "psychology",
-    duration: "10 min read",
-    difficulty: "intermediate",
-    free: true,
-    topics: ["Review", "Journaling", "Process", "Improvement"],
-    content: `
-## The Review Process
-
-Journaling isn't just writing "took a trade, lost money." It's a structured review.
-
-### After EVERY Trade (2 min):
-1. Screenshot your chart with entry/exit marked
-2. Rate the setup: A+, A, B, C, or F
-3. Did you follow your rules? Yes/No
-4. One sentence: What would you do differently?
-
-### End of Day (10 min):
-1. Total P&L
-2. Win rate for the day
-3. Discipline score (1-10): Did I follow my plan?
-4. Emotional state: Was I calm or reactive?
-5. Tomorrow's bias: Based on today's close, what am I looking for?
-
-### End of Week (30 min):
-1. Total trades, wins, losses
-2. Best trade of the week — WHY was it good?
-3. Worst trade — what RULE did I break?
-4. Pattern: Is there a recurring mistake?
-5. Goal for next week: ONE thing to improve
-
-### The Key Insight:
-You don't improve by trading more. You improve by REVIEWING more.
-
-One trader taking 3 trades/day with thorough review will outperform a trader taking 10 trades/day with no review. Every single time.
-    `,
+    topics: [
+      {
+        title: "The 7-point trading plan",
+        points: [
+          "1. WHEN: NY Open only (9:30–11:30 AM)",
+          "2. WHAT: NQ futures only. Nothing else.",
+          "3. WHY: Daily bias determined BEFORE session",
+          "4. HOW: Only A+ setups matching my system",
+          "5. SIZE: Max 7 contracts, stop based on structure",
+          "6. TARGET: Minimum 1:3 R:R or no trade",
+          "7. RULES: 3 trades max, 2 losses = done",
+        ],
+      },
+      {
+        title: "Pre-session routine",
+        points: [
+          "Check economic calendar (15 min before open)",
+          "Mark prior day high/low, overnight high/low",
+          "Determine bias: above PDH = bullish, below PDL = bearish",
+          "Set alerts at key levels",
+          "Review yesterday's journal entry",
+          "Read your rules card out loud",
+        ],
+      },
+      {
+        title: "Post-session review",
+        points: [
+          "Screenshot every trade (win or loss)",
+          "Rate each setup: A+, A, B, C, or F",
+          "Did you follow the plan? Yes/No (no excuses)",
+          "One lesson to carry into tomorrow",
+          "Fill out daily journal prompt",
+          "Close the platform. Walk away. You're done.",
+        ],
+      },
+    ],
   },
 ];
 
-const difficultyColors = {
-  beginner: { bg: "bg-emerald-500/10", text: "text-emerald-400", label: "Beginner" },
-  intermediate: { bg: "bg-yellow-500/10", text: "text-yellow-400", label: "Intermediate" },
-  advanced: { bg: "bg-purple-500/10", text: "text-purple-400", label: "Advanced" },
-};
-
-export default function LearnPage() {
-  const [category, setCategory] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedLesson, setSelectedLesson] = useState<typeof LESSONS[0] | null>(null);
-
-  const filtered = LESSONS.filter((lesson) => {
-    const matchesCategory = category === "all" || lesson.category === category;
-    const matchesSearch = searchQuery === "" ||
-      lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      lesson.topics.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
-    return matchesCategory && matchesSearch;
-  });
-
-  if (selectedLesson) {
-    const diff = difficultyColors[selectedLesson.difficulty as keyof typeof difficultyColors];
-    return (
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-        <button
-          onClick={() => setSelectedLesson(null)}
-          className="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-1"
-        >
-          ← Back to Learn Hub
-        </button>
-
-        <Card variant="glass">
-          <div className="p-2">
-            <div className="flex items-center gap-3 mb-4">
-              <Badge variant={selectedLesson.free ? "success" : "gold"}>
-                {selectedLesson.free ? "Free" : "Vault"}
-              </Badge>
-              <span className={`text-xs px-2 py-0.5 rounded ${diff.bg} ${diff.text}`}>
-                {diff.label}
-              </span>
-              <span className="text-xs text-gray-500 flex items-center gap-1">
-                <Clock size={10} /> {selectedLesson.duration}
-              </span>
-            </div>
-            <h1 className="text-2xl font-bold text-white mb-3">{selectedLesson.title}</h1>
-            <p className="text-gray-400 mb-6">{selectedLesson.description}</p>
-            <div className="flex flex-wrap gap-2 mb-6">
-              {selectedLesson.topics.map((topic) => (
-                <span key={topic} className="px-2 py-1 rounded-lg bg-white/5 border border-white/10 text-xs text-gray-300">
-                  {topic}
-                </span>
-              ))}
-            </div>
-            <div className="prose prose-invert prose-sm max-w-none">
-              <div className="whitespace-pre-wrap text-sm text-gray-300 leading-relaxed space-y-4">
-                {selectedLesson.content.split("\n").map((line, i) => {
-                  if (line.startsWith("## ")) return <h2 key={i} className="text-xl font-bold text-white mt-8 mb-4">{line.replace("## ", "")}</h2>;
-                  if (line.startsWith("### ")) return <h3 key={i} className="text-lg font-semibold text-white mt-6 mb-3">{line.replace("### ", "")}</h3>;
-                  if (line.startsWith("**") && line.endsWith("**")) return <p key={i} className="font-semibold text-white">{line.replace(/\*\*/g, "")}</p>;
-                  if (line.startsWith("- ")) return <p key={i} className="pl-4 text-gray-300">• {line.replace("- ", "")}</p>;
-                  if (line.trim() === "") return <br key={i} />;
-                  return <p key={i} className="text-gray-300">{line}</p>;
-                })}
-              </div>
-            </div>
-          </div>
-        </Card>
-      </motion.div>
-    );
-  }
+// Module detail view component
+function ModuleDetail({ module, onBack }: { module: typeof MODULES[0]; onBack: () => void }) {
+  const [currentTopic, setCurrentTopic] = useState(0);
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-white">Learn Futures Trading</h1>
-          <p className="text-sm text-gray-400">Free educational content for NQ futures traders. From zero to funded.</p>
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -20 }}
+      className="space-y-6"
+    >
+      {/* Back button */}
+      <button
+        onClick={onBack}
+        className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+      >
+        <ChevronLeft size={16} />
+        Back to Modules
+      </button>
+
+      {/* Module header */}
+      <div className={`p-6 rounded-2xl bg-gradient-to-br ${module.gradient} border ${module.border}`}>
+        <div className="flex items-center gap-4 mb-4">
+          <div className={`w-14 h-14 rounded-2xl ${module.bg} border ${module.border} flex items-center justify-center`}>
+            <module.icon size={26} className={module.color} />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-white">{module.title}</h1>
+            <p className="text-sm text-gray-400">{module.subtitle}</p>
+          </div>
         </div>
-        <Badge variant="success">100% Free</Badge>
+        <div className="flex items-center gap-4 text-xs text-gray-500">
+          <span className="flex items-center gap-1"><BookOpen size={12} /> {module.lessons} lessons</span>
+          <span className="flex items-center gap-1"><Clock size={12} /> {module.duration}</span>
+          <Badge variant="success">Free</Badge>
+        </div>
       </div>
 
-      {/* Search */}
-      <Input
-        placeholder="Search lessons (e.g. 'risk management', 'funded', 'psychology')"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        icon={<Search size={14} />}
-      />
-
-      {/* Categories */}
-      <div className="flex flex-wrap gap-2">
-        {CATEGORIES.map((cat) => (
+      {/* Lesson navigation */}
+      <div className="flex gap-2 overflow-x-auto pb-2">
+        {module.topics.map((topic, idx) => (
           <button
-            key={cat.id}
-            onClick={() => setCategory(cat.id)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-              category === cat.id
-                ? "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
+            key={idx}
+            onClick={() => setCurrentTopic(idx)}
+            className={`flex-shrink-0 px-4 py-2 rounded-xl text-xs font-medium transition-all ${
+              currentTopic === idx
+                ? `${module.bg} ${module.color} border ${module.border}`
                 : "bg-white/5 text-gray-400 border border-white/10 hover:border-white/20"
             }`}
           >
-            <cat.icon size={12} />
-            {cat.label}
+            {idx + 1}. {topic.title.split(" ").slice(0, 3).join(" ")}...
           </button>
         ))}
       </div>
 
-      {/* Lessons Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {filtered.map((lesson, idx) => {
-          const diff = difficultyColors[lesson.difficulty as keyof typeof difficultyColors];
-          return (
-            <motion.div
-              key={lesson.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.05 }}
-              onClick={() => setSelectedLesson(lesson)}
-              className="p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-yellow-500/20 hover:bg-white/[0.04] transition-all cursor-pointer group"
-            >
-              <div className="flex items-center gap-2 mb-3">
-                <Badge variant={lesson.free ? "success" : "gold"}>
-                  {lesson.free ? "Free" : "Vault"}
-                </Badge>
-                <span className={`text-[10px] px-2 py-0.5 rounded ${diff.bg} ${diff.text}`}>
-                  {diff.label}
-                </span>
-                <span className="text-[10px] text-gray-500 flex items-center gap-1 ml-auto">
-                  <Clock size={9} /> {lesson.duration}
-                </span>
+      {/* Current lesson content */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentTopic}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+        >
+          <Card variant="glass">
+            <div className="p-2">
+              {/* Lesson header */}
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <p className={`text-xs ${module.color} font-medium uppercase tracking-wide mb-1`}>
+                    Lesson {currentTopic + 1} of {module.topics.length}
+                  </p>
+                  <h2 className="text-xl font-bold text-white">
+                    {module.topics[currentTopic].title}
+                  </h2>
+                </div>
+                <div className={`w-10 h-10 rounded-xl ${module.bg} border ${module.border} flex items-center justify-center`}>
+                  <span className={`text-sm font-bold ${module.color}`}>{currentTopic + 1}</span>
+                </div>
               </div>
-              <h3 className="text-sm font-semibold text-white mb-2 group-hover:text-yellow-400 transition-colors">
-                {lesson.title}
-              </h3>
-              <p className="text-xs text-gray-500 leading-relaxed mb-3">{lesson.description}</p>
-              <div className="flex flex-wrap gap-1.5">
-                {lesson.topics.slice(0, 3).map((topic) => (
-                  <span key={topic} className="text-[10px] px-2 py-0.5 rounded bg-white/5 text-gray-400">
-                    {topic}
-                  </span>
+
+              {/* Key points */}
+              <div className="space-y-3 mb-8">
+                {module.topics[currentTopic].points.map((point, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.05 }}
+                    className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5"
+                  >
+                    <div className={`w-6 h-6 rounded-lg ${module.bg} border ${module.border} flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                      <CheckCircle2 size={12} className={module.color} />
+                    </div>
+                    <p className="text-sm text-gray-300 leading-relaxed">{point}</p>
+                  </motion.div>
                 ))}
-                {lesson.topics.length > 3 && (
-                  <span className="text-[10px] px-2 py-0.5 rounded bg-white/5 text-gray-400">
-                    +{lesson.topics.length - 3}
-                  </span>
-                )}
               </div>
-            </motion.div>
-          );
-        })}
+
+              {/* Navigation */}
+              <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setCurrentTopic(Math.max(0, currentTopic - 1))}
+                  disabled={currentTopic === 0}
+                >
+                  <ChevronLeft size={14} className="mr-1" />
+                  Previous
+                </Button>
+                <span className="text-xs text-gray-500">
+                  {currentTopic + 1} / {module.topics.length}
+                </span>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => setCurrentTopic(Math.min(module.topics.length - 1, currentTopic + 1))}
+                  disabled={currentTopic === module.topics.length - 1}
+                >
+                  Next
+                  <ChevronRight size={14} className="ml-1" />
+                </Button>
+              </div>
+            </div>
+          </Card>
+        </motion.div>
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+export default function LearnPage() {
+  const [selectedModule, setSelectedModule] = useState<typeof MODULES[0] | null>(null);
+
+  if (selectedModule) {
+    return <ModuleDetail module={selectedModule} onBack={() => setSelectedModule(null)} />;
+  }
+
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-500/20 to-yellow-600/10 border border-yellow-500/30 flex items-center justify-center">
+              <GraduationCap size={20} className="text-yellow-400" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">Learn NQ Futures</h1>
+              <p className="text-sm text-gray-400">From zero to funded — the complete curriculum</p>
+            </div>
+          </div>
+        </div>
+        <Badge variant="success">100% Free</Badge>
       </div>
 
-      {filtered.length === 0 && (
-        <Card variant="glass" className="p-12 text-center">
-          <BookOpen size={32} className="text-gray-600 mx-auto mb-3" />
-          <p className="text-sm text-gray-400">No lessons found. Try a different search or category.</p>
-        </Card>
-      )}
+      {/* Progress overview */}
+      <Card variant="gold" className="p-5">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <Sparkles size={14} className="text-yellow-400" />
+            <span className="text-sm font-medium text-yellow-400">Your Progress</span>
+          </div>
+          <span className="text-xs text-gray-500">0 / {MODULES.length} modules completed</span>
+        </div>
+        <ProgressBar value={0} max={MODULES.length} variant="gold" />
+        <p className="text-xs text-gray-500 mt-2">
+          Complete all {MODULES.length} modules to master NQ futures trading fundamentals.
+        </p>
+      </Card>
+
+      {/* Learning path */}
+      <div>
+        <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+          <BookOpen size={18} className="text-yellow-400" />
+          Learning Path
+        </h2>
+        <p className="text-sm text-gray-400 mb-6">
+          Follow the modules in order. Each builds on the previous one.
+        </p>
+
+        {/* Module cards */}
+        <div className="space-y-4">
+          {MODULES.map((module, idx) => (
+            <motion.div
+              key={module.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.08 }}
+              onClick={() => setSelectedModule(module)}
+              className="group cursor-pointer"
+            >
+              <div className={`relative p-5 rounded-2xl bg-gradient-to-r ${module.gradient} border ${module.border} hover:bg-opacity-80 transition-all duration-300 group-hover:scale-[1.01]`}>
+                {/* Module number */}
+                <div className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+                  <span className="text-xs font-bold text-gray-500">{idx + 1}</span>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  {/* Icon */}
+                  <div className={`w-12 h-12 rounded-xl ${module.bg} border ${module.border} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
+                    <module.icon size={22} className={module.color} />
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="text-base font-semibold text-white group-hover:text-yellow-400 transition-colors">
+                        {module.title}
+                      </h3>
+                      <Badge variant="success" className="text-[9px]">Free</Badge>
+                    </div>
+                    <p className="text-sm text-gray-400 mb-3">{module.subtitle}</p>
+
+                    {/* Meta */}
+                    <div className="flex items-center gap-4 text-xs text-gray-500">
+                      <span className="flex items-center gap-1">
+                        <BookOpen size={11} />
+                        {module.lessons} lessons
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Clock size={11} />
+                        {module.duration}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Layers size={11} />
+                        {module.topics.length} topics
+                      </span>
+                    </div>
+
+                    {/* Topic preview */}
+                    <div className="flex flex-wrap gap-1.5 mt-3">
+                      {module.topics.slice(0, 3).map((topic, i) => (
+                        <span key={i} className="text-[10px] px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-gray-400">
+                          {topic.title.split(" ").slice(0, 4).join(" ")}
+                        </span>
+                      ))}
+                      {module.topics.length > 3 && (
+                        <span className="text-[10px] px-2 py-0.5 rounded-md bg-white/5 text-gray-500">
+                          +{module.topics.length - 3} more
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Arrow */}
+                  <ChevronRight size={18} className="text-gray-600 group-hover:text-yellow-400 transition-colors flex-shrink-0 mt-1" />
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Mentorship upsell */}
+      <Card variant="gold" className="p-6">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-yellow-500/20 border border-yellow-500/30 flex items-center justify-center">
+              <Flame size={22} className="text-yellow-400" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-white">Want the full system?</h3>
+              <p className="text-sm text-gray-400">
+                These modules cover the fundamentals. The mentorship teaches my exact strategy, live execution, and personal coaching.
+              </p>
+            </div>
+          </div>
+          <Button size="sm" className="flex-shrink-0">
+            Apply for Mentorship
+            <ArrowRight size={14} className="ml-2" />
+          </Button>
+        </div>
+      </Card>
     </motion.div>
   );
 }

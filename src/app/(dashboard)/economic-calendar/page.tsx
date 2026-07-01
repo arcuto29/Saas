@@ -265,6 +265,52 @@ export default function EconomicCalendarPage() {
         </div>
       </Card>
 
+      {/* TradingView Economic Calendar Widget — Real-Time */}
+      <Card variant="glass">
+        <CardHeader>
+          <CardTitle>
+            <Calendar size={14} className="inline mr-1" />
+            Live Economic Calendar
+          </CardTitle>
+          <Badge variant="success">Real-Time Data</Badge>
+        </CardHeader>
+        <div className="rounded-xl overflow-hidden border border-white/5">
+          <iframe
+            src="https://sslecal2.investing.com?columns=exc_flags,exc_currency,exc_importance,exc_actual,exc_forecast,exc_previous&features=datepicker,timezone&countries=5&calType=week&timeZone=8&lang=1"
+            width="100%"
+            height="500"
+            style={{ border: "none", background: "#0a0a0a" }}
+            title="Economic Calendar"
+          />
+        </div>
+        <p className="text-[10px] text-gray-600 mt-2">
+          US economic events — filter by High impact for NQ-moving events
+        </p>
+      </Card>
+
+      {/* Live News Feed — Financial Juice */}
+      <Card variant="glass">
+        <CardHeader>
+          <CardTitle>
+            <Zap size={14} className="inline mr-1" />
+            Live Market News
+          </CardTitle>
+          <Badge variant="gold">Real-Time</Badge>
+        </CardHeader>
+        <div className="rounded-xl overflow-hidden border border-white/5">
+          <iframe
+            src="https://www.financialjuice.com/widgets/headlines.aspx?category=all&color=1"
+            width="100%"
+            height="400"
+            style={{ border: "none", background: "#030712" }}
+            title="Financial Juice Live News"
+          />
+        </div>
+        <p className="text-[10px] text-gray-600 mt-2">
+          Powered by Financial Juice — real-time market-moving headlines
+        </p>
+      </Card>
+
       {/* Events by date */}
       {Object.entries(groupedEvents).map(([date, events]) => {
         const dateObj = new Date(date + "T12:00:00");
