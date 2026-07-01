@@ -55,8 +55,8 @@ const stats = [
 ];
 
 const tradingEdge = [
-  { icon: Shield, text: "Strict risk management — never risking more than 5 ticks per trade on NQ" },
-  { icon: BarChart3, text: "ICT / Smart Money concepts applied to futures — liquidity sweeps, order blocks, FVGs" },
+  { icon: Shield, text: "Strict risk management — controlled entries with defined stops, never gambling" },
+  { icon: BarChart3, text: "Proprietary strategy refined over 4+ years of live futures trading" },
   { icon: Crown, text: "Psychology-first approach — mindset before strategy, discipline before entries" },
   { icon: Zap, text: "Sniper entries on NQ and ES with minimal drawdown, targeting 1:6 reward" },
 ];

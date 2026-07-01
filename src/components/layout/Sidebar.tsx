@@ -33,6 +33,7 @@ const navItems = [
   { href: "/reports", label: "Reports", icon: FileText },
   { href: "/coach", label: "Coach", icon: Brain },
   { href: "/finance", label: "Finance", icon: Wallet },
+  { href: "/admin", label: "Admin", icon: Shield, ownerOnly: true },
 ];
 
 export default function Sidebar() {
