@@ -14,7 +14,6 @@ import {
   CheckCircle2,
   Star,
   TrendingUp,
-  Users,
   Award,
   ChevronDown,
 } from "lucide-react";
@@ -57,33 +56,33 @@ const features = [
 ];
 
 const stats = [
-  { value: "500+", label: "Active Traders", icon: Users },
-  { value: "$2.4M+", label: "Tracked P&L", icon: TrendingUp },
-  { value: "94%", label: "User Retention", icon: Award },
-  { value: "4.9/5", label: "User Rating", icon: Star },
+  { value: "80%", label: "Win Rate", icon: Target },
+  { value: "1:6", label: "Risk : Reward", icon: TrendingUp },
+  { value: "Funded", label: "Multiple Accounts", icon: Award },
+  { value: "-$40K→6 Fig", label: "The Comeback", icon: Star },
 ];
 
 const testimonials = [
   {
-    name: "Marcus R.",
-    role: "Funded Trader | FTMO",
-    text: "Priisma Edge changed my trading. The AI coach caught my revenge trading pattern and the journal helped me see exactly when I was breaking rules. Got funded within 3 months.",
-    avatar: "M",
-    result: "+$12,400 first month funded",
+    name: "Community Member",
+    role: "Discord | Beginner Trader",
+    text: "Prisma dropped a free tip about market structure in the Discord and it completely changed how I read charts. Went from guessing entries to actually understanding WHY price moves. Can't imagine what full mentorship would do.",
+    avatar: "D",
+    result: "First green week after 3 months of losses",
   },
   {
-    name: "Sarah K.",
-    role: "Forex Trader",
-    text: "The analytics are insane. I found out my win rate drops 20% after 2pm and I was best in London session. Simple adjustment, massive results.",
-    avatar: "S",
-    result: "Win rate: 48% → 67%",
+    name: "Community Member",
+    role: "Discord | Intermediate Trader",
+    text: "Been in dozens of trading discords. Prisma is the only person I've seen who actually trades what they teach. The free tips alone helped me fix my risk management. This guy is the real deal.",
+    avatar: "T",
+    result: "Stopped blowing accounts",
   },
   {
-    name: "James T.",
-    role: "Prop Firm Trader",
-    text: "Managing 3 funded accounts is chaos without this. The prop firm tracker keeps me within limits and the risk calculator means I never oversize. Worth every dollar.",
-    avatar: "J",
-    result: "3 funded accounts, $150k total",
+    name: "Community Member",
+    role: "Discord | Aspiring Funded Trader",
+    text: "Asked Prisma one question about trading psychology and he gave me a full breakdown that was better than any paid course I've taken. If the free game is this good, the mentorship is going to be insane.",
+    avatar: "K",
+    result: "Mindset shift — finally patient with entries",
   },
 ];
 
@@ -399,7 +398,7 @@ export default function LandingPage() {
             <span className="text-gold-gradient"> Edge</span>
           </h2>
           <p className="text-gray-400 max-w-xl mx-auto text-lg">
-            Don&apos;t take our word for it. See what real traders are saying.
+            Real feedback from people I&apos;ve helped in the community — just from free tips alone.
           </p>
         </motion.div>
 

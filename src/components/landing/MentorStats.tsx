@@ -89,8 +89,9 @@ export default function MentorStats() {
             <span className="text-gold-gradient"> Actually Trades</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            No theory. No recycled YouTube strategies. These are real, verified stats from live funded accounts.
-            I trade every single day — and I teach exactly what I do.
+            No theory. No recycled YouTube strategies. These are real stats from live funded accounts.
+            I trade every single day and I&apos;ve been helping traders in my Discord with tips that actually get results.
+            Now I&apos;m offering dedicated mentorship — my full system, one-on-one.
           </p>
         </motion.div>
 

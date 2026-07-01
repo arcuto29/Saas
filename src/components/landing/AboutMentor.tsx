@@ -122,10 +122,10 @@ const phases = [
     id: "now",
     year: "2024–NOW",
     title: "The Legacy",
-    subtitle: "Teaching the Path",
+    subtitle: "Passing the Torch",
     description:
-      "Now I shorten your learning curve from 5 years to months. I teach my exact system — mindset, strategy, and execution. So you don't have to suffer like I did. Your breakthrough is closer than you think.",
-    quote: "\"I went through hell so you don't have to.\"",
+      "Started sharing tips with traders in my Discord — and they actually worked. People started getting results just from the free game I was dropping. That's when I knew: I can teach this. Now I'm building a mentorship to give others the shortcut I never had.",
+    quote: "\"People started winning just from my free tips. Imagine what dedicated mentorship can do.\"",
     quoteAuthor: "— Prisma",
     icon: Trophy,
     colors: {
@@ -137,8 +137,8 @@ const phases = [
       particle: "bg-yellow-400",
     },
     stats: [
-      { label: "Students Mentored", value: "50+" },
-      { label: "Students Funded", value: "30+" },
+      { label: "Free Tips Given", value: "100s" },
+      { label: "People Helped", value: "Results" },
       { label: "Your Turn?", value: "Apply Now" },
     ],
   },
