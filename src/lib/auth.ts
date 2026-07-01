@@ -1,7 +1,17 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
+// Hardcoded owner account — no database needed for login
+const OWNER = {
+  id: "owner-prisma-1",
+  email: "owner@prismafx.com",
+  password: "PrismaFx2024!",
+  name: "Prisma",
+  role: "owner",
+};
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  secret: process.env.NEXTAUTH_SECRET || "fallback-secret-for-prismafx-2024",
   session: { strategy: "jwt" },
   pages: {
     signIn: "/login",
@@ -21,32 +31,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const email = credentials.email as string;
         const password = credentials.password as string;
 
-        // Try database auth
-        try {
-          const { findUserByEmail } = await import("./prisma");
-          const user = await findUserByEmail(email);
-
-          if (user && user.password) {
-            const bcrypt = await import("bcryptjs");
-            const isValid = await bcrypt.compare(password, user.password);
-            if (isValid) {
-              return {
-                id: user.id,
-                email: user.email,
-                name: user.name,
-                image: user.image,
-                role: user.role || "user",
-              };
-            }
-            // Wrong password — don't fall through to demo
-            return null;
-          }
-        } catch (error) {
-          console.error("[Auth] DB error, using demo mode:", error);
+        // Owner login (hardcoded — always works)
+        if (email === OWNER.email && password === OWNER.password) {
+          return {
+            id: OWNER.id,
+            email: OWNER.email,
+            name: OWNER.name,
+            image: null,
+            role: OWNER.role,
+          };
         }
 
-        // Demo mode: accept any credentials when DB unavailable
-        if (email && password) {
+        // Demo mode: any other email/password combo works as a regular user
+        if (email && password && password.length >= 1) {
           return {
             id: "demo-user-1",
             email: email,
