@@ -26,63 +26,63 @@ const features = [
   {
     icon: BookOpen,
     title: "Trading Journal",
-    description: "Log every trade with emotions, setups, screenshots, and detailed notes. Track what works.",
+    description: "Log every futures trade with emotions, setups, screenshots, and detailed notes. Track what works on NQ, ES, YM.",
   },
   {
     icon: BarChart3,
     title: "Deep Analytics",
-    description: "Win rate by setup, session, weekday. Equity curves, drawdown analysis, and pattern detection.",
+    description: "Win rate by setup, session (NY open, London, Asia), and contract. Equity curves, drawdown analysis, and pattern detection.",
   },
   {
     icon: Shield,
     title: "Risk Management",
-    description: "Position sizing calculator, drawdown tracking, and pre-trade checklists to protect your capital.",
+    description: "Tick-based position sizing, drawdown tracking, and pre-trade checklists built for futures contracts.",
   },
   {
     icon: Brain,
     title: "AI Coach",
-    description: "Pattern-based intelligence detects revenge trading, overtrading, and identifies your best setups.",
+    description: "Pattern-based intelligence detects revenge trading, overtrading, and identifies your best setups across NQ, ES, and more.",
   },
   {
     icon: Target,
     title: "Goal Tracking",
-    description: "Daily, weekly, and monthly goals with visual progress. Build consistency through accountability.",
+    description: "Daily tick targets, weekly P&L goals, and funded challenge milestones with visual progress.",
   },
   {
     icon: Zap,
     title: "Prop Firm Tracker",
-    description: "Manage multiple funded challenges. Track drawdown limits, profit targets, and payout history.",
+    description: "Manage multiple funded futures challenges. Track drawdown limits, profit targets, and payout history.",
   },
 ];
 
 const stats = [
   { value: "80%", label: "Win Rate", icon: Target },
   { value: "1:6", label: "Risk : Reward", icon: TrendingUp },
-  { value: "Funded", label: "Multiple Accounts", icon: Award },
-  { value: "-$40K→6 Fig", label: "The Comeback", icon: Star },
+  { value: "Funded", label: "Futures Accounts", icon: Award },
+  { value: "NQ & ES", label: "Primary Markets", icon: Star },
 ];
 
 const testimonials = [
   {
-    name: "Community Member",
-    role: "Discord | Beginner Trader",
-    text: "Prisma dropped a free tip about market structure in the Discord and it completely changed how I read charts. Went from guessing entries to actually understanding WHY price moves. Can't imagine what full mentorship would do.",
-    avatar: "D",
-    result: "First green week after 3 months of losses",
+    name: "Jay M.",
+    role: "NQ Futures Trader | 8 months experience",
+    text: "I was stuck in a cycle of blowing TopStep challenges until Prisma broke down how he reads NQ during the NY open. One conversation about order flow and liquidity sweeps and I finally understood why my entries were getting stopped out every single time.",
+    avatar: "J",
+    result: "Passed first funded challenge (50k NQ)",
   },
   {
-    name: "Community Member",
-    role: "Discord | Intermediate Trader",
-    text: "Been in dozens of trading discords. Prisma is the only person I've seen who actually trades what they teach. The free tips alone helped me fix my risk management. This guy is the real deal.",
-    avatar: "T",
-    result: "Stopped blowing accounts",
+    name: "Andre W.",
+    role: "ES & NQ Trader | 1 year experience",
+    text: "Prisma's free tips on risk management saved me. I was risking 4-5 ticks stop on ES with no plan. He showed me how to structure my stops around actual levels instead of random numbers. Night and day difference in my P&L.",
+    avatar: "A",
+    result: "Went from -$800/week to consistent green",
   },
   {
-    name: "Community Member",
-    role: "Discord | Aspiring Funded Trader",
-    text: "Asked Prisma one question about trading psychology and he gave me a full breakdown that was better than any paid course I've taken. If the free game is this good, the mentorship is going to be insane.",
-    avatar: "K",
-    result: "Mindset shift — finally patient with entries",
+    name: "Chris D.",
+    role: "Aspiring Funded Futures Trader",
+    text: "What separates Prisma from everyone else is he actually trades NQ live and shows his thought process. Not just screenshots after the fact. He called a setup in the Discord, explained why, and it hit 1:4 in front of everyone. That's when I knew this was real.",
+    avatar: "C",
+    result: "Learned to wait for A+ setups only",
   },
 ];
 
@@ -184,19 +184,19 @@ export default function LandingPage() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-yellow-400"></span>
             </span>
             <span className="text-xs font-medium text-yellow-400 tracking-wide">
-              Trading Performance OS — Now Live
+              Futures Trading Performance OS — NQ · ES · YM
             </span>
           </div>
 
           <h1 className="text-5xl md:text-6xl lg:text-8xl font-extrabold text-white mb-8 leading-[0.9] tracking-tight">
-            Your Edge in the
+            Dominate the
             <br />
-            <span className="text-gold-gradient">Markets Starts Here</span>
+            <span className="text-gold-gradient">Futures Markets</span>
           </h1>
 
           <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed">
-            The all-in-one trading performance platform. Journal trades, analyze patterns,
-            manage risk, track prop firms, and get AI-powered coaching — all in one premium dashboard.
+            The all-in-one performance platform for futures traders. Journal NQ and ES trades, analyze your setups,
+            manage risk per tick, track funded challenges, and get AI coaching — all in one premium dashboard.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
@@ -269,10 +269,10 @@ export default function LandingPage() {
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-5">
             Everything You Need to
-            <span className="text-gold-gradient"> Trade Better</span>
+            <span className="text-gold-gradient"> Trade Futures Better</span>
           </h2>
           <p className="text-gray-400 max-w-xl mx-auto text-lg">
-            Built by traders, for traders. Every feature designed to improve your edge and grow your account.
+            Built by a funded futures trader, for futures traders. Every feature designed to improve your edge on NQ, ES, and beyond.
           </p>
         </motion.div>
 
@@ -314,10 +314,10 @@ export default function LandingPage() {
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
               <div>
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                  Premium Dashboard Experience
+                  Built for Futures Traders
                 </h3>
-                <p className="text-gray-400">
-                  Black & gold design system with glassmorphism, smooth animations, and full responsiveness.
+                <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl">
+              Built specifically for futures traders. Track NQ, ES, YM, GC, and CL contracts with tick-based analytics.
                 </p>
               </div>
               <Link href="/login">
@@ -344,27 +344,27 @@ export default function LandingPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
               <div className="p-5 rounded-xl bg-white/[0.03] border border-white/5">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs text-gray-500">Daily P&L</span>
+                  <span className="text-xs text-gray-500">Daily P&L (NQ)</span>
                   <TrendingUp size={14} className="text-emerald-400" />
                 </div>
-                <p className="text-2xl font-bold text-emerald-400">+$450.25</p>
-                <p className="text-xs text-gray-500 mt-1">5 trades today</p>
+                <p className="text-2xl font-bold text-emerald-400">+$1,250</p>
+                <p className="text-xs text-gray-500 mt-1">3 contracts · 50 ticks</p>
               </div>
               <div className="p-5 rounded-xl bg-white/[0.03] border border-white/5">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs text-gray-500">Win Rate</span>
                   <Target size={14} className="text-yellow-400" />
                 </div>
-                <p className="text-2xl font-bold text-white">62.5%</p>
-                <p className="text-xs text-gray-500 mt-1">Above target</p>
+                <p className="text-2xl font-bold text-white">80%</p>
+                <p className="text-xs text-gray-500 mt-1">4/5 trades today</p>
               </div>
               <div className="p-5 rounded-xl bg-white/[0.03] border border-white/5">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs text-gray-500">Profit Factor</span>
+                  <span className="text-xs text-gray-500">Avg R:R</span>
                   <BarChart3 size={14} className="text-blue-400" />
                 </div>
-                <p className="text-2xl font-bold text-white">2.1</p>
-                <p className="text-xs text-gray-500 mt-1">Excellent</p>
+                <p className="text-2xl font-bold text-white">1:6</p>
+                <p className="text-xs text-gray-500 mt-1">Risk 5 ticks, target 30</p>
               </div>
             </div>
           </div>
@@ -454,16 +454,16 @@ export default function LandingPage() {
           className="bg-gradient-to-br from-yellow-500/5 to-transparent border border-yellow-500/10 rounded-3xl p-8 md:p-12"
         >
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-8 text-center">
-            Why Traders Choose Priisma Edge
+            Why Futures Traders Choose Priisma Edge
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
-              "Track unlimited trades across multiple accounts",
-              "AI-powered coaching without expensive subscriptions",
-              "Real-time performance analytics & pattern detection",
-              "Prop firm challenge management & tracking",
-              "Position sizing and risk calculators",
-              "Beautiful calendar heatmaps & equity curves",
+              "Track unlimited futures trades across NQ, ES, YM, GC, CL",
+              "Tick-based position sizing and risk calculators",
+              "AI coaching that detects overtrading and revenge patterns",
+              "Prop firm challenge management (TopStep, Apex, etc.)",
+              "Session-based analytics (NY Open, London, Asia)",
+              "Beautiful equity curves and drawdown tracking",
               "Export reports to CSV and PDF instantly",
               "Premium black & gold design — mobile responsive",
             ].map((benefit) => (

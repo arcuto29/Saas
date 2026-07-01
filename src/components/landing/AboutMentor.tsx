@@ -52,8 +52,8 @@ const phases = [
     title: "The Grind",
     subtitle: "-$40K Deep. Still Going.",
     description:
-      "Down $40,000. Live accounts blown. Funded accounts blown. Personal savings gone. I lost count of how many accounts I destroyed — live, demo, challenges, you name it. Every single one. People thought I was insane for continuing. But every blown account taught me something the market doesn't teach for free.",
-    quote: "\"I was $40K in the hole and everyone told me to quit. I couldn't. This was all I had.\"",
+      "Down $40,000. Live accounts blown. Funded futures accounts blown. Personal savings gone. NQ and ES took everything from me. I lost count of how many accounts I destroyed — live, demo, challenges, you name it. Every single one. People thought I was insane for continuing. But every blown account taught me something the market doesn't teach for free.",
+    quote: "\"I was $40K in the hole and everyone told me to quit. I couldn't. Futures was all I had.\"",
     quoteAuthor: "— Me, at my lowest point",
     icon: Flame,
     colors: {
@@ -76,7 +76,7 @@ const phases = [
     title: "The Breakthrough",
     subtitle: "Everything Changed",
     description:
-      "Mastered my psychology first. Then the strategy clicked. Got my first funded account. Then another. Then payouts started hitting. Consistent. Real. Life-changing money for the first time ever.",
+      "Mastered my psychology first. Then the NQ strategy clicked. Got my first funded futures account. Then another. Then payouts started hitting. Consistent. Real. Life-changing money from trading the same 2 contracts every single day.",
     quote: "\"The same people who doubted me started asking for help.\"",
     quoteAuthor: "— The best feeling",
     icon: Zap,
@@ -100,7 +100,7 @@ const phases = [
     title: "The Mastery",
     subtitle: "Scaling Up",
     description:
-      "Multiple funded accounts. Six-figure months became normal. Bought my Lambo Urus. Moved into a new place. Helped my family. Started teaching others. Building real generational wealth.",
+      "Multiple funded futures accounts. Six-figure months became normal trading NQ and ES. Bought my Lambo Urus. Moved into a new place. Helped my family. Started sharing my edge with other futures traders. Building real generational wealth from 2 contracts.",
     quote: "\"All glory to God. None of this is possible without Him.\"",
     quoteAuthor: "— Prisma",
     icon: Crown,
@@ -124,8 +124,8 @@ const phases = [
     title: "The Legacy",
     subtitle: "Passing the Torch",
     description:
-      "Started sharing tips with traders in my Discord — and they actually worked. People started getting results just from the free game I was dropping. That's when I knew: I can teach this. Now I'm building a mentorship to give others the shortcut I never had.",
-    quote: "\"People started winning just from my free tips. Imagine what dedicated mentorship can do.\"",
+      "Started sharing NQ and ES tips with futures traders in my Discord — and they actually worked. People started getting results just from the free game I was dropping. That's when I knew: I can teach this. Now I'm building a mentorship to give other futures traders the shortcut I never had.",
+    quote: "\"People started winning on NQ just from my free tips. Imagine what dedicated mentorship can do.\"",
     quoteAuthor: "— Prisma",
     icon: Trophy,
     colors: {

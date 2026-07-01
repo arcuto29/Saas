@@ -31,25 +31,27 @@ const planOptions = [
 ];
 
 const experienceOptions = [
-  { value: "beginner", label: "Beginner (0–6 months)" },
-  { value: "intermediate", label: "Intermediate (6 months – 2 years)" },
-  { value: "advanced", label: "Advanced (2+ years)" },
-  { value: "funded", label: "Already Funded" },
+  { value: "brand-new", label: "Brand new — haven't placed a futures trade yet" },
+  { value: "beginner", label: "Beginner — trading 0–6 months, still learning" },
+  { value: "intermediate", label: "Intermediate — 6 months – 2 years, know the basics but not consistent" },
+  { value: "advanced", label: "Advanced — 2+ years, profitable but want to scale" },
+  { value: "funded", label: "Already funded — need help staying funded / scaling" },
 ];
 
 const marketOptions = [
-  { value: "forex", label: "Forex" },
-  { value: "crypto", label: "Crypto" },
-  { value: "stocks", label: "Stocks / Indices" },
-  { value: "futures", label: "Futures" },
-  { value: "multiple", label: "Multiple Markets" },
+  { value: "nq", label: "NQ (Nasdaq Futures)" },
+  { value: "es", label: "ES (S&P 500 Futures)" },
+  { value: "ym", label: "YM (Dow Futures)" },
+  { value: "gc", label: "GC (Gold Futures)" },
+  { value: "cl", label: "CL (Crude Oil Futures)" },
+  { value: "multiple", label: "Multiple Contracts" },
 ];
 
 const goalOptions = [
-  { value: "get-funded", label: "Get funded with a prop firm" },
-  { value: "consistency", label: "Become consistent & profitable" },
+  { value: "get-funded", label: "Get funded (TopStep, Apex, etc.)" },
+  { value: "consistency", label: "Become consistent & profitable on NQ/ES" },
   { value: "mindset", label: "Fix my trading psychology" },
-  { value: "strategy", label: "Learn a proven strategy" },
+  { value: "strategy", label: "Learn a proven futures strategy" },
   { value: "scale", label: "Scale my funded accounts" },
   { value: "all", label: "All of the above" },
 ];
@@ -91,6 +93,11 @@ export default function ApplyPage() {
     experience: "",
     market: "",
     goal: "",
+    biggestStruggle: "",
+    moneyLost: "",
+    triedBefore: "",
+    availability: "",
+    whyNow: "",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -273,7 +280,7 @@ export default function ApplyPage() {
                 </div>
                 <div>
                   <p className="text-2xl font-bold text-emerald-400">Funded</p>
-                  <p className="text-xs text-gray-500">Multiple Accounts</p>
+                  <p className="text-xs text-gray-500">Futures Accounts</p>
                 </div>
                 <div>
                   <p className="text-2xl font-bold text-white">4+ yrs</p>
@@ -297,7 +304,7 @@ export default function ApplyPage() {
                 </div>
                 <div>
                   <h2 className="text-lg font-bold text-white">Application Form</h2>
-                  <p className="text-xs text-gray-500">Takes less than 2 minutes</p>
+                  <p className="text-xs text-gray-500">Takes about 5 minutes — the more honest you are, the better I can help</p>
                 </div>
               </div>
 
@@ -373,6 +380,82 @@ export default function ApplyPage() {
                   options={goalOptions}
                 />
 
+                {/* Biggest struggle */}
+                <div className="space-y-1.5">
+                  <label className="block text-sm font-medium text-gray-300">
+                    What&apos;s your biggest struggle in trading right now? *
+                  </label>
+                  <textarea
+                    name="biggestStruggle"
+                    value={formData.biggestStruggle}
+                    onChange={handleChange}
+                    placeholder="Be real with me — revenge trading? Can't hold winners? Keep blowing challenges? No discipline? I need to know where you're stuck."
+                    rows={3}
+                    required
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all duration-200 resize-none text-sm"
+                  />
+                </div>
+
+                {/* Money lost */}
+                <Select
+                  label="How much have you lost in trading so far? (be honest)"
+                  name="moneyLost"
+                  value={formData.moneyLost}
+                  onChange={handleChange}
+                  options={[
+                    { value: "under-1k", label: "Under $1,000" },
+                    { value: "1k-5k", label: "$1,000 – $5,000" },
+                    { value: "5k-10k", label: "$5,000 – $10,000" },
+                    { value: "10k-25k", label: "$10,000 – $25,000" },
+                    { value: "25k-plus", label: "$25,000+" },
+                    { value: "none", label: "Haven't lost anything yet" },
+                  ]}
+                />
+
+                {/* What they've tried */}
+                <div className="space-y-1.5">
+                  <label className="block text-sm font-medium text-gray-300">
+                    What courses, mentors, or strategies have you tried before?
+                  </label>
+                  <textarea
+                    name="triedBefore"
+                    value={formData.triedBefore}
+                    onChange={handleChange}
+                    placeholder="YouTube strategies? Other mentors? Paid courses? Signal services? Let me know what hasn't worked so I don't repeat it."
+                    rows={2}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all duration-200 resize-none text-sm"
+                  />
+                </div>
+
+                {/* Availability */}
+                <Select
+                  label="How much time can you dedicate to trading daily?"
+                  name="availability"
+                  value={formData.availability}
+                  onChange={handleChange}
+                  options={[
+                    { value: "1-2hrs", label: "1–2 hours (part-time around work/school)" },
+                    { value: "3-4hrs", label: "3–4 hours (serious commitment)" },
+                    { value: "full-time", label: "Full-time — this is my focus" },
+                    { value: "flexible", label: "Flexible schedule" },
+                  ]}
+                />
+
+                {/* Why now */}
+                <div className="space-y-1.5">
+                  <label className="block text-sm font-medium text-gray-300">
+                    Why are you applying NOW? What changed?
+                  </label>
+                  <textarea
+                    name="whyNow"
+                    value={formData.whyNow}
+                    onChange={handleChange}
+                    placeholder="What made you decide today is the day? Hit a breaking point? Saw my content? Tired of going alone? I want to know your 'why'."
+                    rows={2}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all duration-200 resize-none text-sm"
+                  />
+                </div>
+
                 {/* Message */}
                 <div className="space-y-1.5">
                   <label className="block text-sm font-medium text-gray-300">
@@ -382,8 +465,8 @@ export default function ApplyPage() {
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    placeholder="Tell me about your trading journey, biggest struggles, what you've tried before..."
-                    rows={4}
+                    placeholder="Optional — anything else about your situation, your life, your goals beyond trading. I mentor the whole person, not just the trader."
+                    rows={3}
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all duration-200 resize-none text-sm"
                   />
                 </div>

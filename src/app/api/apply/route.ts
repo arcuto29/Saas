@@ -1,16 +1,28 @@
 import { NextResponse } from "next/server";
 
-// In production, you'd store this in a database and/or send a notification
-// For now, this logs the application and returns success
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, email, discord, plan, experience, market, goal, message } = body;
+    const {
+      name,
+      email,
+      discord,
+      plan,
+      experience,
+      market,
+      goal,
+      biggestStruggle,
+      moneyLost,
+      triedBefore,
+      availability,
+      whyNow,
+      message,
+    } = body;
 
     // Validate required fields
-    if (!name || !email || !plan || !experience) {
+    if (!name || !email || !plan || !experience || !biggestStruggle) {
       return NextResponse.json(
-        { error: "Name, email, plan, and experience level are required" },
+        { error: "Please fill in all required fields (name, email, plan, experience, and biggest struggle)" },
         { status: 400 }
       );
     }
@@ -24,7 +36,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Log the application (in production, save to DB)
     const application = {
       id: crypto.randomUUID(),
       name,
@@ -34,41 +45,79 @@ export async function POST(req: Request) {
       experience,
       market: market || null,
       goal: goal || null,
+      biggestStruggle: biggestStruggle || null,
+      moneyLost: moneyLost || null,
+      triedBefore: triedBefore || null,
+      availability: availability || null,
+      whyNow: whyNow || null,
       message: message || null,
       submittedAt: new Date().toISOString(),
       status: "pending",
     };
 
-    // In production, you would:
-    // 1. Save to database: await prisma.application.create({ data: application })
-    // 2. Send email notification to yourself
-    // 3. Send Discord webhook to a private channel
-    // 4. Send confirmation email to applicant
+    // Try to save to database if available
+    try {
+      const { default: prisma } = await import("@/lib/prisma");
+      await prisma.application.create({
+        data: {
+          name,
+          email,
+          discord: discord || null,
+          plan,
+          experience,
+          market: market || null,
+          goal: goal || null,
+          biggestStruggle: biggestStruggle || null,
+          moneyLost: moneyLost || null,
+          triedBefore: triedBefore || null,
+          availability: availability || null,
+          whyNow: whyNow || null,
+          message: message || null,
+        },
+      });
+      console.log("✅ Application saved to database:", application.id);
+    } catch {
+      // Database not available — log to console instead
+      console.log("📋 New mentorship application (no DB):", JSON.stringify(application, null, 2));
+    }
 
-    console.log("📋 New mentorship application:", JSON.stringify(application, null, 2));
-
-    // TODO: Uncomment when you have a Discord webhook URL
-    // await fetch(process.env.DISCORD_WEBHOOK_URL!, {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     embeds: [{
-    //       title: "🎓 New Mentorship Application",
-    //       color: 0xD4AF37,
-    //       fields: [
-    //         { name: "Name", value: name, inline: true },
-    //         { name: "Email", value: email, inline: true },
-    //         { name: "Discord", value: discord || "Not provided", inline: true },
-    //         { name: "Plan", value: plan, inline: true },
-    //         { name: "Experience", value: experience, inline: true },
-    //         { name: "Market", value: market || "Not specified", inline: true },
-    //         { name: "Goal", value: goal || "Not specified", inline: false },
-    //         { name: "Message", value: message || "None", inline: false },
-    //       ],
-    //       timestamp: new Date().toISOString(),
-    //     }],
-    //   }),
-    // });
+    // Send Discord webhook notification if configured
+    if (process.env.DISCORD_WEBHOOK_URL) {
+      try {
+        await fetch(process.env.DISCORD_WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            embeds: [
+              {
+                title: "🎓 New Mentorship Application",
+                color: 0xd4af37, // Gold
+                fields: [
+                  { name: "👤 Name", value: name, inline: true },
+                  { name: "📧 Email", value: email, inline: true },
+                  { name: "💬 Discord", value: discord || "Not provided", inline: true },
+                  { name: "💰 Plan", value: plan, inline: true },
+                  { name: "📊 Experience", value: experience, inline: true },
+                  { name: "📈 Market", value: market || "Not specified", inline: true },
+                  { name: "🎯 Goal", value: goal || "Not specified", inline: false },
+                  { name: "🔥 Biggest Struggle", value: biggestStruggle || "Not shared", inline: false },
+                  { name: "💸 Money Lost", value: moneyLost || "Not shared", inline: true },
+                  { name: "⏰ Availability", value: availability || "Not shared", inline: true },
+                  { name: "❓ Why Now", value: whyNow || "Not shared", inline: false },
+                  { name: "📚 Tried Before", value: triedBefore || "Not shared", inline: false },
+                  { name: "📝 Message", value: message || "None", inline: false },
+                ],
+                timestamp: new Date().toISOString(),
+                footer: { text: "PrismaFx Mentorship Applications" },
+              },
+            ],
+          }),
+        });
+        console.log("📨 Discord webhook sent");
+      } catch (webhookError) {
+        console.error("Discord webhook failed:", webhookError);
+      }
+    }
 
     return NextResponse.json(
       {
@@ -86,12 +135,18 @@ export async function POST(req: Request) {
   }
 }
 
-// GET endpoint to list applications (admin only — you'd add auth here)
+// GET endpoint to list applications (for your admin use)
 export async function GET() {
-  // In production, this would fetch from the database
-  // and be protected by authentication
-  return NextResponse.json(
-    { message: "Applications endpoint. Add auth to access." },
-    { status: 200 }
-  );
+  try {
+    const { default: prisma } = await import("@/lib/prisma");
+    const applications = await prisma.application.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+    return NextResponse.json({ applications }, { status: 200 });
+  } catch {
+    return NextResponse.json(
+      { message: "Database not configured. Set up PostgreSQL and run prisma db push." },
+      { status: 200 }
+    );
+  }
 }

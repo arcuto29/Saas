@@ -36,18 +36,18 @@ const stats = [
   },
   {
     value: "Funded",
-    label: "Multiple Accounts",
+    label: "Futures Accounts",
     icon: Award,
-    description: "Passed and managing multiple prop firm challenges",
+    description: "Passed and managing multiple futures prop firm challenges",
     color: "text-blue-400",
     bg: "bg-blue-500/10",
     border: "border-blue-500/20",
   },
   {
     value: "4+ Years",
-    label: "Market Experience",
+    label: "Futures Experience",
     icon: Flame,
-    description: "Trading forex, crypto, and indices full-time",
+    description: "Trading NQ, ES, and other index futures full-time",
     color: "text-purple-400",
     bg: "bg-purple-500/10",
     border: "border-purple-500/20",
@@ -55,10 +55,10 @@ const stats = [
 ];
 
 const tradingEdge = [
-  { icon: Shield, text: "Strict risk management — never risking more than 1% per trade" },
-  { icon: BarChart3, text: "ICT / Smart Money concepts with precision entries" },
-  { icon: Crown, text: "Psychology-first approach — mindset before strategy" },
-  { icon: Zap, text: "Sniper entries with minimal drawdown, maximum reward" },
+  { icon: Shield, text: "Strict risk management — never risking more than 5 ticks per trade on NQ" },
+  { icon: BarChart3, text: "ICT / Smart Money concepts applied to futures — liquidity sweeps, order blocks, FVGs" },
+  { icon: Crown, text: "Psychology-first approach — mindset before strategy, discipline before entries" },
+  { icon: Zap, text: "Sniper entries on NQ and ES with minimal drawdown, targeting 1:6 reward" },
 ];
 
 export default function MentorStats() {
@@ -89,8 +89,8 @@ export default function MentorStats() {
             <span className="text-gold-gradient"> Actually Trades</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            No theory. No recycled YouTube strategies. These are real stats from live funded accounts.
-            I trade every single day and I&apos;ve been helping traders in my Discord with tips that actually get results.
+            No theory. No recycled YouTube strategies. These are real stats from live funded futures accounts.
+            I trade NQ and ES every single day and I&apos;ve been helping futures traders in my Discord with tips that actually get results.
             Now I&apos;m offering dedicated mentorship — my full system, one-on-one.
           </p>
         </motion.div>
