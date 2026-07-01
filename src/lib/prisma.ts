@@ -1,40 +1,37 @@
 /**
- * Prisma Client - Lazy Loading
+ * Prisma Client - Neon PostgreSQL (Prisma 7)
  * 
- * This module exports a prisma client that loads lazily to avoid
- * build/startup errors when @prisma/client hasn't been generated yet.
- * 
- * Run `npx prisma generate` to generate the client.
- * The app works fully with demo data without a database.
+ * Uses the Neon serverless adapter for Prisma 7.
+ * The app works with demo data when no database is configured.
  */
 
-let prismaInstance: any = null;
+import { PrismaClient } from "@prisma/client";
+import { PrismaNeon } from "@prisma/adapter-neon";
 
-function getPrismaClient() {
+let prismaInstance: PrismaClient | null = null;
+
+function getPrismaClient(): PrismaClient | any {
   if (prismaInstance) return prismaInstance;
 
-  try {
-    // Dynamic require to avoid module resolution errors at build time
-    const { PrismaClient } = require("@prisma/client");
-    prismaInstance = new PrismaClient();
-    return prismaInstance;
-  } catch {
-    // Return a proxy that provides helpful error messages
+  const databaseUrl = process.env.DATABASE_URL;
+
+  if (!databaseUrl || databaseUrl.includes("user:password@localhost")) {
+    // No real database configured — return mock proxy
     return new Proxy(
       {},
       {
         get(_, prop) {
           if (prop === "then" || prop === "catch" || prop === "finally") return undefined;
           if (prop === "$connect" || prop === "$disconnect") return () => Promise.resolve();
-          
-          // Return a mock that throws on actual database operations
+          if (prop === "$queryRaw" || prop === "$executeRaw") return () => Promise.resolve([]);
+
           return new Proxy(
             {},
             {
               get() {
                 return () => {
                   throw new Error(
-                    'Database not configured. Run "npx prisma generate" then set DATABASE_URL in .env'
+                    'Database not configured. Set DATABASE_URL in .env and run "npx prisma db push"'
                   );
                 };
               },
@@ -44,13 +41,35 @@ function getPrismaClient() {
       }
     );
   }
+
+  try {
+    const adapter = new PrismaNeon({ connectionString: databaseUrl });
+    prismaInstance = new PrismaClient({ adapter });
+    return prismaInstance;
+  } catch (error) {
+    console.error("Failed to initialize Prisma Client:", error);
+    return new Proxy(
+      {},
+      {
+        get(_, prop) {
+          if (prop === "then" || prop === "catch" || prop === "finally") return undefined;
+          if (prop === "$connect" || prop === "$disconnect") return () => Promise.resolve();
+          return new Proxy({}, { get() { return () => { throw new Error("Database connection failed"); }; } });
+        },
+      }
+    );
+  }
 }
 
-// Use a getter so it's truly lazy
-const prisma = new Proxy({} as any, {
+// Lazy proxy — only connects when first accessed
+const prisma = new Proxy({} as PrismaClient, {
   get(_, prop) {
     const client = getPrismaClient();
-    return client[prop];
+    const value = (client as any)[prop];
+    if (typeof value === "function") {
+      return value.bind(client);
+    }
+    return value;
   },
 });
 
